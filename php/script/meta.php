@@ -1,7 +1,7 @@
 <?php
 
+ini_set('error_reporting', E_ALL ^ E_NOTICE);
 define('SYSTEM_DIR', dirname(dirname(__FILE__)) . "/");
-
 require_once SYSTEM_DIR . '../html/config.php';
 
 define('SQL_SELECT_CHANNELS', "SELECT *" .
@@ -123,6 +123,11 @@ class Meta {
 				"description" => $this->channel_description,
 				"keywords" => $this->channel_keywords,
 			));
+			if (is_null($this->channel_title) ||
+					is_null($this->channel_description) ||
+					is_null($this->channel_keywords)) {
+				continue;
+			}
 
 			$statement = $db->prepare(SQL_UPDATE_CHANNELS);
 			$statement->execute(array(
@@ -150,6 +155,10 @@ class Meta {
 				"title" => $this->video_title,
 				"description" => $this->video_description,
 			));
+			if (is_null($this->video_title) ||
+					is_null($this->video_description)) {
+				continue;
+			}
 
 			$statement = $db->prepare(SQL_UPDATE_VIDEOS);
 			$statement->execute(array(
