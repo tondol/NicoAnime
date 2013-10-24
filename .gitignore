@@ -1,0 +1,7 @@
+.htaccess
+.htpasswd
+html/config.php
+html/contents
+ruby/config.yml
+ruby/nicoanime.log
+ruby/error.log

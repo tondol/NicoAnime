@@ -1,0 +1,38 @@
+<?php
+
+define('SYSTEM_DIR', dirname(dirname(__FILE__)) . '/php/');
+define('CORE_DIR', SYSTEM_DIR . 'core/');
+define('CONTROLLER_DIR', SYSTEM_DIR . 'controller/');
+define('TEMPLATE_DIR', SYSTEM_DIR . 'template/');
+ini_set('include_path', ini_get('include_path') . ':' . CORE_DIR);
+
+$config = array(
+	'controller_dir' => CONTROLLER_DIR,
+	'template_dir' => TEMPLATE_DIR,
+	'static_dir' => STATIC_DIR,
+
+	'application_main' => 'index',
+	'application_missing' => 'missing',
+
+	'chain' => array(
+		'index' => 'index',
+		'channel' => 'channel',
+		'channel/video' => 'video',
+		'register' => 'register',
+		'logs' => 'logs',
+		'help' => 'help',
+		'missing' => 'missing',
+	),
+
+	// サイトの設定
+	'application_title' => 'NicoAnime',
+	'application_url' => 'http://fuga.hoge.com/',
+
+	// データベースの設定
+	'db' => array(
+		'database' => 'nicoanime',
+		'host' => 'localhost',
+		'user' => 'hoge',
+		'password' => 'piyo',
+	),
+);
