@@ -16,19 +16,24 @@ class NicovideoCrawler
     @logs = Model::Logs.new
   end
 
-  def crawl(channel, id, crawled_at)
+  def crawl(channel, id, modified_at)
     num_inserted = 0
 
     # process each video
     @logs.d("crawler", "crawl: #{channel.creator}")
     channel.items.reverse_each {|item|
-      next if crawled_at && item.first_retrieve <= crawled_at
-
-      @nicovideo.watch(item.video_id) {|video|
-        @logs.d("crawler", "create: #{video.title}")
-        @videos.insert_into(id, video.video_id, video.title, video.description)
-        num_inserted += 1
-      }
+      begin
+        if modified_at == nil || item.pub_date > modified_at
+          @nicovideo.watch(item.video_id) {|video|
+            @logs.d("crawler", "create: #{video.title}")
+            @videos.insert_into(id, video.video_id, video.title, video.description)
+            num_inserted += 1
+          }
+        end
+      rescue Exception => e
+        @logs.e("crawler", "unavailable: #{item.title}")
+        @logs.e("crawler", e.message)
+      end
     }
 
     # update meta properties in the table
@@ -47,10 +52,10 @@ class NicovideoCrawler
       @channels.select.each_hash {|row|
         id = row["id"]
         channel_id = row["nicoChannelId"]
-        crawled_at = Model::db_time_to_time(row["crawledAt"])
+        modified_at = Model::db_time_to_time(row["modifiedAt"])
 
         @nicovideo.channel(channel_id) {|channel|
-          crawl(channel, id, crawled_at)
+          crawl(channel, id, modified_at)
           sleep(1)
         }
       }

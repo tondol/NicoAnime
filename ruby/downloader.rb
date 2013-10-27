@@ -105,17 +105,18 @@ class NicovideoDownloader
       @videos.select.each_hash {|row|
         id = row["id"]
         video_id = row["nicoVideoId"]
+        title = row["title"]
 
-        @nicovideo.watch(video_id) {|video|
-          begin
+        begin
+          @nicovideo.watch(video_id) {|video|
             download(video, id)
             sleep 30
-          rescue Exception => e
-            @logs.e("downloader", "unavailable: #{title}")
-            @logs.e("downloader", e.message)
-            @videos.update_with_failure(id)
-          end
-        }
+          }
+        rescue Exception => e
+          @logs.e("downloader", "unavailable: #{title}")
+          @logs.e("downloader", e.message)
+          @videos.update_with_failure(id)
+        end
       }
     rescue Exception => e
       @logs.e("downloader", "an unexpected error has occurred")
