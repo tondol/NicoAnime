@@ -4,7 +4,7 @@ require_once 'channels.php';
 require_once 'videos.php';
 
 class Controller_channel_video extends Controller {
-	function get_title() {	
+	function get_title($chain=null) {	
 		return $this->video["title"];
 	}
 	function get_url($chain=null) {
