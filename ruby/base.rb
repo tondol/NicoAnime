@@ -74,7 +74,7 @@ module Model
       statement.execute(filename, filesize, Time.now, id)
     end
     def update_with_failure(id)
-      statement = @db.preapre("UPDATE `videos`" +
+      statement = @db.prepare("UPDATE `videos`" +
         " SET `retryCount` = `retryCount` + 1" +
         " WHERE `id` = ?")
       statement.execute(id)
