@@ -33,7 +33,7 @@ $config = array(
 	'db' => array(
 		'database' => 'nicoanime',
 		'host' => 'localhost',
-		'user' => 'hoge',
+		'user' => 'fuga',
 		'password' => 'piyo',
 	),
 );

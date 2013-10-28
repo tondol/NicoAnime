@@ -2,7 +2,7 @@
 DirectoryIndex index.php index.html
 
 # deny
-<Files ~ "^\.(htaccess|htpasswd)$">
+<Files ~ "^\.(htaccess|htpasswd|config.php)$">
 	deny from all
 </Files>
 
