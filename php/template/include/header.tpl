@@ -2,10 +2,10 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?= h($this->get_static("assets/css/bootstrap.min.css")) ?>" />
-	<link rel="stylesheet" type="text/css" href="<?= h($this->get_static("assets/css/user.css")) ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= h($this->get_public("assets/css/bootstrap.min.css")) ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= h($this->get_public("assets/css/user.css")) ?>" />
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="<?= h($this->get_static("assets/js/bootstrap.min.js")) ?>"></script>
+	<script type="text/javascript" src="<?= h($this->get_public("assets/js/bootstrap.min.js")) ?>"></script>
 <?php if ($this->chain == "channel/video"): ?>
 	<script src="http://jwpsrv.com/library/Jr71WDfEEeO6GhIxOQfUww.js"></script>
 <?php endif ?>

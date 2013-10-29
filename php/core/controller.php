@@ -72,8 +72,12 @@ class Controller {
 		}
 	}
 	// get url for specified path
-	function get_static($path) {
-		return $this->config["application_url"] . $path;
+	function get_public($path=null) {
+		if (is_null($path)) {
+			return $this->config["application_url"];
+		} else {
+			return $this->config["application_url"] . $path;
+		}
 	}
 	// include template for specified path
 	function include_template($path) {

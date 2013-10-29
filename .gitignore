@@ -1,7 +1,7 @@
 .htaccess
 .htpasswd
-html/config.php
-html/contents
+public/contents
+php/config.php
 ruby/config.yml
 ruby/nicoanime.log
 ruby/error.log

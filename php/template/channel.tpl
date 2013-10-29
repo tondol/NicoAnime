@@ -16,8 +16,8 @@
 <?php foreach ($this->get("videos") as $i => $video): ?>
 	<?php
 		$video_url = $this->get_url("channel/video") . "?id=" . $video["id"];
-		$thumb_url = $this->get_static("contents/" . $video["nicoVideoId"] . ".jpg");
-		$unavailable_url = $this->get_static("assets/images/unavailable.png");
+		$thumb_url = $this->get_public("contents/" . $video["nicoVideoId"] . ".jpg");
+		$unavailable_url = $this->get_public("assets/images/unavailable.png");
 		$filesize = sprintf("%.2f", $video["filesize"] / 1000000.0);
 	?>
 	<div class="col-sm-4 col-md-3">
