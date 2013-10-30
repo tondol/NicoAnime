@@ -46,7 +46,7 @@ $ vim config.yml
 
 ### rtmpdumpの導入
 
-rtmpeプロトコルの動画をダウンロードするため，下記のようにしてrtmpdumpを導入します。
+rtmpeプロトコルの動画をダウンロードするため，下記のようにして[rtmpdump](http://rtmpdump.mplayerhq.hu/)を導入します。
 
 ~~~~
 $ cd ~/tmp
@@ -84,7 +84,7 @@ $ vim .htaccess
 ### 必要なテーブルを作成
 
 データベースに必要なテーブルを作成します。
-コマンド例のデータベース名（nicoanime）は適宜変更してください。
+コマンド例のユーザー名（fuga）やデータベース名（nicoanime）は適宜変更してください。
 
 ~~~~
 $ cd ~/www/nicoanime
