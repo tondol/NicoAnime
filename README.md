@@ -109,7 +109,7 @@ HOME=/home/fuga
 MAILTO=""
 
 # nicoanime
-NICOANIME_DIR=/home/fuga/www/anime/ruby
+NICOANIME_DIR=/home/fuga/www/nicoanime/ruby
 00 * * * * ruby $NICOANIME_DIR/crawler.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
 30 * * * * ruby $NICOANIME_DIR/downloader.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
 ~~~~
