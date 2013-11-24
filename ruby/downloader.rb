@@ -81,6 +81,8 @@ class NicovideoDownloader
     elsif url.scheme == "rtmpe"
       @logs.d("downloader", "download video via rtmp: #{video.title}")
       filename, filesize = download_via_rtmp(video, id)
+    else
+      raise Nicovideo::UnavailableVideoError.new
     end
 
     binary = video.thumbnail
@@ -112,7 +114,7 @@ class NicovideoDownloader
             download(video, id)
             sleep 30
           }
-        rescue Exception => e
+        rescue StandardError => e
           @logs.e("downloader", "unavailable: #{title}")
           @logs.e("downloader", e.message)
           @videos.update_with_failure(id)
