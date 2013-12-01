@@ -18,11 +18,13 @@ class Model_channels {
 	}
 	function select_all_with_videos() {
 		/*
+                 * 各channelについて、最新のvideoをleft joinするための手順
+                 *
 		 * 1. `videos`を`channelId`ごとにgroupし、
 		 *    groupごとに`downloadedAt`が最大のものを抽出する（これを`A`とする）
 		 * 2. `videos`から`downlaodedAt`が`A`のいずれかの値と一致するものを抽出する（これを`B`とする）
-		 * 3. `channels`に`B`をjoinし、
-		 *    `channels`.`id`と`videos`.`channelId`が同じものを抽出する
+		 * 3. `channels`.`id`と`B`.`channelId`が同じことを条件に、
+                 *    `channels`に`B`をleft joinする
 		 */
 		$sql = "SELECT `t2`.*, `t1`.*" .
 			" FROM `channels` AS `t1` LEFT JOIN (" .
