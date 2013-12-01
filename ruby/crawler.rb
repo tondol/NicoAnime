@@ -41,10 +41,10 @@ class NicovideoCrawler
       @logs.d("crawler", "#{num_inserted} videos created: #{channel.creator}")
       if num_inserted == 0
         @channels.update_without_modification(id)
-        sleep(1)
+        sleep 1
       else
         @channels.update_with_modification(id)
-        sleep(1)
+        sleep 1
       end
     }
   end
