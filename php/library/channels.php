@@ -16,7 +16,7 @@ class Model_channels {
 		$statement->execute(array($id));
 		return $statement->fetch(PDO::FETCH_ASSOC);
 	}
-	function select_with_videos() {
+	function select_all_with_videos() {
 		/*
 		 * 1. `videos`を`channelId`ごとにgroupし、
 		 *    groupごとに`downloadedAt`が最大のものを抽出する（これを`A`とする）

@@ -6,7 +6,7 @@ class Model_logs {
 		$this->db = DB::get_instance();
 	}
 
-	function select() {
+	function select_all() {
 		$sql = "SELECT *" .
 			" FROM `logs`" .
 			" ORDER BY `createdAt` DESC, `id` DESC" .

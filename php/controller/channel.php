@@ -26,7 +26,7 @@ class Controller_channel extends Controller {
 		if (isset($this->get["id"])) {
 			$this->channel = $channels->select($this->get["id"]);
 			$this->set("channel", $this->channel);
-			$this->set("videos", $videos->select_by_channel_id($this->get["id"]));
+			$this->set("videos", $videos->select_all_by_channel_id($this->get["id"]));
 		}
 
 		$this->render();

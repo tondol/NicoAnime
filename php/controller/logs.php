@@ -9,7 +9,7 @@ class Controller_logs extends Controller {
 		$channels = new Model_channels();
 		$videos = new Model_videos();
 		$logs = new Model_logs();
-		$this->set("logs", $logs->select());
+		$this->set("logs", $logs->select_all());
 		$this->set("count_channels", $channels->count());
 		$this->set("count_not_crawled_channels", $channels->count_not_crawled());
 		$this->set("count_videos", $videos->count());

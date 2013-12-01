@@ -14,7 +14,7 @@ class Model_videos {
 		$statement->execute(array($id));
 		return $statement->fetch(PDO::FETCH_ASSOC);
 	}
-	function select_by_channel_id($channel_id) {
+	function select_all_by_channel_id($channel_id) {
 		$sql = "SELECT *" .
 			" FROM `videos`" .
 			" WHERE `channelId` = ? AND `deletedAt` IS NULL" .
