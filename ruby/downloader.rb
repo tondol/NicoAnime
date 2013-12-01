@@ -15,7 +15,7 @@ class NicovideoDownloader
     @videos = Model::Videos.new
   end
 
-  def download_via_http(video, id)
+  def download_via_http(video)
     binary = video.video
     filename = "#{video.video_id}.#{video.type}"
     filepath = "#{@config["contents"]}#{filename}"
@@ -27,7 +27,7 @@ class NicovideoDownloader
 
     return filename, filesize
   end
-  def download_via_rtmp(video, id)
+  def download_via_rtmp(video)
     params = video.send(:get_params)
     url = URI.parse(URI.decode(params['url']))
     fmst = URI.decode(params['fmst']).split(":")
@@ -69,35 +69,43 @@ class NicovideoDownloader
       raise Nicovideo::UnavailableVideoError.new
     end
   end
-  def download(video, id)
-    filename = filesize = nil
-    params = video.send(:get_params)
-    url = URI.parse(URI.decode(params["url"]))
+  def download_thumbnail(video)
+    filename = "#{video.video_id}.jpg"
+    filepath = "#{@config["contents"]}#{filename}"
 
-    # download video
-    if url.scheme == "http"
-      @logs.d("downloader", "download video via http: #{video.title}")
-      filename, filesize = download_via_http(video, id)
-    elsif url.scheme == "rtmpe"
-      @logs.d("downloader", "download video via rtmp: #{video.title}")
-      filename, filesize = download_via_rtmp(video, id)
-    else
-      raise Nicovideo::UnavailableVideoError.new
-    end
-
-    binary = video.thumbnail
-    thumbname = "#{video.video_id}.jpg"
-    thumbpath = "#{@config["contents"]}#{thumbname}"
-
-    # download thumbnail
-    @logs.d("downloader", "download thumbnail: #{video.title}")
-    File.open(thumbpath, "wb") {|f|
-      f.write(binary)
+    File.open(filepath, "wb") {|f|
+      f.write(video.thumbnail)
     }
+  end
+  def download(id, video_id)
+    begin
+      @nicovideo.watch(video_id) {|video|
+        filename = filesize = nil
+        params = video.send(:get_params)
+        url = URI.parse(URI.decode(params["url"]))
 
-    # update meta properties in the table
-    @logs.d("downloader", "modified: #{video.title}")
-    @videos.update_with_success(filename, filesize, id)
+        if url.scheme == "http"
+          @logs.d("downloader", "download video via http: #{video.title}")
+          filename, filesize = download_via_http(video)
+        elsif url.scheme == "rtmpe"
+          @logs.d("downloader", "download video via rtmp: #{video.title}")
+          filename, filesize = download_via_rtmp(video)
+        else
+          raise Nicovideo::UnavailableVideoError.new
+        end
+
+        @logs.d("downloader", "download thumbnail: #{video.title}")
+        download_thumbnail(video)
+
+        @logs.d("downloader", "modified: #{video.title}")
+        @videos.update_with_success(filename, filesize, id)
+        sleep 30
+      }
+    rescue StandardError => e
+      @logs.e("downloader", "unavailable: #{video.title}")
+      @logs.e("downloader", e.message)
+      @videos.update_with_failure(id)
+    end
   end
   def main
     # logs.d("downloader", ">> run: #{Time.now}")
@@ -105,20 +113,7 @@ class NicovideoDownloader
 
     begin
       @videos.select.each_hash {|row|
-        id = row["id"]
-        video_id = row["nicoVideoId"]
-        title = row["title"]
-
-        begin
-          @nicovideo.watch(video_id) {|video|
-            download(video, id)
-            sleep 30
-          }
-        rescue StandardError => e
-          @logs.e("downloader", "unavailable: #{title}")
-          @logs.e("downloader", e.message)
-          @videos.update_with_failure(id)
-        end
+        download(row["id"], row["nicoVideoId"])
       }
     rescue Exception => e
       @logs.e("downloader", "an unexpected error has occurred")

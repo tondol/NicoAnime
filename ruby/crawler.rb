@@ -16,33 +16,37 @@ class NicovideoCrawler
     @logs = Model::Logs.new
   end
 
-  def crawl(channel, id, modified_at)
+  def crawl_sub(id, modified_at, item)
+    @nicovideo.watch(item.video_id) {|video|
+      @logs.d("crawler", "create: #{video.title}")
+      @videos.insert_into(id, video.video_id, video.title, video.description)
+    }
+  end
+  def crawl(id, channel_id, modified_at)
     num_inserted = 0
 
-    # process each video
-    @logs.d("crawler", "crawl: #{channel.creator}")
-    channel.items.reverse_each {|item|
-      begin
-        if modified_at == nil || item.pub_date > modified_at
-          @nicovideo.watch(item.video_id) {|video|
-            @logs.d("crawler", "create: #{video.title}")
-            @videos.insert_into(id, video.video_id, video.title, video.description)
-            num_inserted += 1
-          }
+    @nicovideo.channel(channel_id) {|channel|
+      @logs.d("crawler", "crawl: #{channel.creator}")
+      channel.items.reverse_each {|item|
+        begin
+          next if modified_at && item.pub_date <= modified_at
+          crawl_sub(id, modified_at, item)
+          num_inserted += 1
+        rescue Exception => e
+          @logs.e("crawler", "unavailable: #{item.title}")
+          @logs.e("crawler", e.message)
         end
-      rescue Exception => e
-        @logs.e("crawler", "unavailable: #{item.title}")
-        @logs.e("crawler", e.message)
+      }
+  
+      @logs.d("crawler", "#{num_inserted} videos created: #{channel.creator}")
+      if num_inserted == 0
+        @channels.update_without_modification(id)
+        sleep(1)
+      else
+        @channels.update_with_modification(id)
+        sleep(1)
       end
     }
-
-    # update meta properties in the table
-    @logs.d("crawler", "#{num_inserted} videos created: #{channel.creator}")
-    if num_inserted == 0
-      @channels.update_without_modification(id)
-    else
-      @channels.update_with_modification(id)
-    end
   end
   def main
     # logs.d("crawler", ">> run: #{Time.now}")
@@ -50,14 +54,7 @@ class NicovideoCrawler
 
     begin
       @channels.select.each_hash {|row|
-        id = row["id"]
-        channel_id = row["nicoChannelId"]
-        modified_at = Model::db_time_to_time(row["modifiedAt"])
-
-        @nicovideo.channel(channel_id) {|channel|
-          crawl(channel, id, modified_at)
-          sleep(1)
-        }
+        crawl(row["id"], row["nicoChannelId"], Model::db_time_to_time(row["modifiedAt"]))
       }
     rescue Exception => e
       @logs.e("crawler", "an unexpected error has occurred")

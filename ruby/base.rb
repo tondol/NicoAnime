@@ -35,7 +35,7 @@ module Model
       statement = @db.prepare("SELECT * FROM `channels`" +
         " WHERE `crawledAt` IS NULL OR `crawledAt` < NOW() - INTERVAL ? HOUR" +
         " ORDER BY `crawledAt` ASC")
-      statement.execute(12)
+      statement.execute(6)
     end
     def update_with_modification(id)
       statement = @db.prepare("UPDATE `channels`" +
