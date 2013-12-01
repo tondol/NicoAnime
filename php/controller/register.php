@@ -31,7 +31,7 @@ class Controller_register extends Controller {
 		if ($response = @file_get_contents($url)) {
 			$document = new DOMDocument();
 			@$document->loadHTML($response);
-			$metas = $document->getelementsByTagName("meta");
+			$metas = $document->getElementsByTagName("meta");
 
 			foreach ($metas as $meta) {
 				$name = $meta->getAttribute("name");

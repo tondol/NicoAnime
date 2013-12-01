@@ -44,7 +44,7 @@ class Model_videos {
 			" FROM `videos`" .
 			" WHERE `downloadedAt` IS NOT NULL";
 		$statement = $this->db->prepare($sql);
-		$statement->execute(array($video_id));
+		$statement->execute();
 		return $statement->fetchColumn();
 	}
 }

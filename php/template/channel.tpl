@@ -12,39 +12,39 @@
 	<h2>videos <small>動画一覧</small></h2>
 </div>
 
+<?php if (count($this->get("videos"))): ?>
 <div class="row">
-<?php foreach ($this->get("videos") as $i => $video): ?>
-	<?php
-		$video_url = $this->get_url("channel/video") . "?id=" . $video["id"];
-		$thumb_url = $this->get_public("contents/" . $video["nicoVideoId"] . ".jpg");
-		$unavailable_url = $this->get_public("assets/images/unavailable.png");
-		$filesize = sprintf("%.2f", $video["filesize"] / 1000000.0);
-	?>
+	<?php foreach ($this->get("videos") as $i => $video): ?>
+		<?php
+			$video_url = $this->get_url("channel/video") . "?id=" . $video["id"];
+			$thumb_url = $this->get_public("contents/" . $video["nicoVideoId"] . ".jpg");
+			$unavailable_url = $this->get_public("assets/images/unavailable.png");
+			$filesize = sprintf("%.2f", $video["filesize"] / 1000000.0);
+		?>
 	<div class="col-sm-4 col-md-3">
 		<div class="thumbnail">
-	<?php if (isset($video["downloadedAt"])): ?>
+		<?php if (isset($video["downloadedAt"])): ?>
 			<a href="<?= h($video_url) ?>">
 				<img src="<?= h($thumb_url) ?>" />
 			</a>
-	<?php else: ?>
+		<?php else: ?>
 				<img src="<?= h($unavailable_url) ?>" />
-	<?php endif ?>
+		<?php endif ?>
 			<div class="caption">
 				<p><?= h($video["title"]) ?></p>
-	<?php if (isset($video["downloadedAt"])): ?>
+		<?php if (isset($video["downloadedAt"])): ?>
 				<p><a href="<?= h($video_url) ?>" class="btn btn-primary">
 					再生する（<?= h($filesize) ?>MB）
 				</a></p>
-	<?php else: ?>
+		<?php else: ?>
 				<p><a class="btn btn-primary disabled">未ダウンロード</a></p>
-	<?php endif ?>
+		<?php endif ?>
 			</div><!-- /caption -->
 		</div><!-- /thumbnail -->
 	</div><!-- /col -->
-<?php endforeach ?>
+	<?php endforeach ?>
 </div><!-- /row -->
-
-<?php if (!count($this->get("videos"))): ?>
+<?php else: ?>
 <p>動画がありません。</p>
 <?php endif ?>
 

@@ -9,13 +9,13 @@
 </div>
 
 <dl>
-	<dt>チャンネル個数</dt>
+	<dt>チャンネル数</dt>
 	<dd><?= h($this->get("count_channels")) ?>個</dd>
-	<dt>処理待機中のチャンネル個数</dt>
+	<dt>処理待機中のチャンネル数</dt>
 	<dd><?= h($this->get("count_not_crawled_channels")) ?>個</dd>
-	<dt>動画個数</dt>
+	<dt>動画数</dt>
 	<dd><?= h($this->get("count_videos")) ?>個</dd>
-	<dt>処理待機中の動画個数</dt>
+	<dt>処理待機中の動画数</dt>
 	<dd><?= h($this->get("count_not_downloaded_videos")) ?>個</dd>
 	<dt>合計ファイルサイズ（目安）</dt>
 	<dd><?= sprintf("%.2f", $this->get("sum_filesize") / 1000000.0) ?> MB</dd>
