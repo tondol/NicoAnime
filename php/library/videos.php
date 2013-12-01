@@ -28,7 +28,7 @@ class Model_videos {
 			" FROM `videos`" .
 			" WHERE `deletedAt` IS NULL";
 		$statement = $this->db->prepare($sql);
-		$statement->execute(array($video_id));
+		$statement->execute();
 		return $statement->fetchColumn();
 	}
 	function count_not_downloaded() {
@@ -36,7 +36,7 @@ class Model_videos {
 			" FROM `videos`" .
 			" WHERE `downloadedAt` IS NULL AND `deletedAt` IS NULL";
 		$statement = $this->db->prepare($sql);
-		$statement->execute(array($video_id));
+		$statement->execute();
 		return $statement->fetchColumn();
 	}
 	function sum_filesize() {
