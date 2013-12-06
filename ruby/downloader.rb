@@ -102,7 +102,7 @@ class NicovideoDownloader
         sleep 30
       }
     rescue StandardError => e
-      @logs.e("downloader", "unavailable: #{video.title}")
+      @logs.e("downloader", "unavailable: #{video_id}")
       @logs.e("downloader", e.message)
       @videos.update_with_failure(id)
     end
