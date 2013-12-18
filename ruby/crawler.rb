@@ -35,6 +35,7 @@ class NicovideoCrawler
         rescue Exception => e
           @logs.e("crawler", "unavailable: #{item.title}")
           @logs.e("crawler", e.message)
+          $stderr.puts(e.backtrace)
         end
       }
   
@@ -59,6 +60,7 @@ class NicovideoCrawler
     rescue Exception => e
       @logs.e("crawler", "an unexpected error has occurred")
       @logs.e("crawler", e.message)
+      $stderr.puts(e.backtrace)
     ensure
       Model::close
     end

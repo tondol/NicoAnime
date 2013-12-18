@@ -69,6 +69,14 @@ class NicovideoDownloader
       raise Nicovideo::UnavailableVideoError.new
     end
   end
+  def download_comments(video)
+    filename = "#{video.video_id}.xml"
+    filepath = "#{@config["contents"]}#{filename}"
+
+    File.open(filepath, "wb") {|f|
+      f.write(video.comments(500))
+    }
+  end
   def download_thumbnail(video)
     filename = "#{video.video_id}.jpg"
     filepath = "#{@config["contents"]}#{filename}"
@@ -77,7 +85,7 @@ class NicovideoDownloader
       f.write(video.thumbnail)
     }
   end
-  def download(id, video_id)
+  def download(id, video_id, title)
     begin
       @nicovideo.watch(video_id) {|video|
         filename = filesize = nil
@@ -85,25 +93,29 @@ class NicovideoDownloader
         url = URI.parse(URI.decode(params["url"]))
 
         if url.scheme == "http"
-          @logs.d("downloader", "download video via http: #{video.title}")
+          @logs.d("downloader", "download video via http: #{title}")
           filename, filesize = download_via_http(video)
         elsif url.scheme == "rtmpe"
-          @logs.d("downloader", "download video via rtmp: #{video.title}")
+          @logs.d("downloader", "download video via rtmp: #{title}")
           filename, filesize = download_via_rtmp(video)
         else
           raise Nicovideo::UnavailableVideoError.new
         end
 
-        @logs.d("downloader", "download thumbnail: #{video.title}")
+        @logs.d("downloader", "download comments: #{title}")
+        download_comments(video)
+
+        @logs.d("downloader", "download thumbnail: #{title}")
         download_thumbnail(video)
 
-        @logs.d("downloader", "modified: #{video.title}")
+        @logs.d("downloader", "modified: #{title}")
         @videos.update_with_success(filename, filesize, id)
         sleep 30
       }
     rescue StandardError => e
-      @logs.e("downloader", "unavailable: #{video_id}")
+      @logs.e("downloader", "unavailable: #{title}")
       @logs.e("downloader", e.message)
+      $stderr.puts(e.backtrace)
       @videos.update_with_failure(id)
     end
   end
@@ -113,11 +125,12 @@ class NicovideoDownloader
 
     begin
       @videos.select.each_hash {|row|
-        download(row["id"], row["nicoVideoId"])
+        download(row["id"], row["nicoVideoId"], row["title"])
       }
     rescue Exception => e
       @logs.e("downloader", "an unexpected error has occurred")
       @logs.e("downloader", e.message)
+      $stderr.puts(e.backtrace)
     ensure
       Model::close
     end
