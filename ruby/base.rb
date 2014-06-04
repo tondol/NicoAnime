@@ -49,6 +49,11 @@ module Model
         " WHERE `id` = ?")
       statement.execute(Time.now, id)
     end
+    def delete(id)
+      statement = @db.prepare("DELETE FROM `channels`" +
+        " WHERE `id` = ?")
+      statement.execute(id)
+    end
   end
 
   class Videos
@@ -60,6 +65,11 @@ module Model
         " WHERE `downloadedAt` IS NULL AND `deletedAt` IS NULL" +
         " ORDER BY `createdAt` ASC")
       statement.execute
+    end
+    def select_with_channel_id(channel_id)
+      statement = @db.prepare("SELECT * FROM `videos`" +
+        " WHERE `channelId` = ?")
+      statement.execute(channel_id)
     end
     def insert_into(channel_id, video_id, title, description)
       statement = @db.prepare("INSERT INTO `videos`" +
@@ -82,6 +92,11 @@ module Model
         " SET `deletedAt` = ?" +
         " WHERE `id` = ? AND `retryCount` >= 3")
       statement.execute(Time.now, id)
+    end
+    def delete_with_channel_id(channel_id)
+      statement = @db.prepare("DELETE FROM `videos`" +
+        " WHERE `channelId` = ?")
+      statement.execute(channel_id)
     end
   end
 
