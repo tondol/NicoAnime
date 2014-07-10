@@ -24,12 +24,18 @@ class NicovideoCrawler
   end
   def crawl(id, channel_id, modified_at)
     num_inserted = 0
+    hash = {}
+
+    @videos.select_with_channel_id(id).each_hash {|video|
+      hash[video["nicoVideoId"]] = true
+    }
 
     @nicovideo.channel(channel_id) {|channel|
       @logs.d("crawler", "crawl: #{channel.creator}")
       channel.items.reverse_each {|item|
         begin
-          next if modified_at && item.pub_date <= modified_at
+          next if hash.key?(item.video_id)
+          hash[item.video_id] = true
           crawl_sub(id, modified_at, item)
           num_inserted += 1
         rescue Exception => e
