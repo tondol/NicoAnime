@@ -43,5 +43,6 @@ $config = array(
 	),
 
 	// コンテンツの保存先（絶対パス）
-	'contents' => '/home/fuga/www/nicoanime/public/contents/',
+	'contents_dir' => PUBLIC_DIR . 'contents/',
+	'contents_url' => 'http://fuga.hoge.com/contents/',
 );

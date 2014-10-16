@@ -3,9 +3,9 @@
 
 <?php
 	$video = $this->get("video");
-	$video_url = $this->config["application_url"] . "contents/" . $video["filename"];
-	$thumb_url = $this->config["application_url"] . "contents/" . $video["nicoVideoId"] . ".jpg";
-	$comments_url = $this->config["application_url"] . "contents/" . $video["nicoVideoId"] . ".xml";
+	$video_url = $this->config["contents_url"] . $video["filename"];
+	$thumb_url = $this->config["contents_url"] . $video["nicoVideoId"] . ".jpg";
+	$comments_url = $this->config["contents_url"] . $video["nicoVideoId"] . ".xml";
 	$filesize = sprintf("%.2f", $video["filesize"] / 1000000.0);
 ?>
 
