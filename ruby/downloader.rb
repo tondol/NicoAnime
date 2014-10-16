@@ -93,28 +93,28 @@ class NicovideoDownloader
         url = URI.parse(URI.decode(params["url"]))
 
         if url.scheme == "http"
-          @logs.d("downloader", "download video via http: #{title}")
+          @logs.d("downloader", "download/video: #{title} (http)")
           filename, filesize = download_via_http(video)
         elsif url.scheme == "rtmpe"
-          @logs.d("downloader", "download video via rtmp: #{title}")
+          @logs.d("downloader", "download/video: #{title} (rtmp)")
           filename, filesize = download_via_rtmp(video)
         else
           raise Nicovideo::UnavailableVideoError.new
         end
 
-        @logs.d("downloader", "download comments: #{title}")
+        @logs.d("downloader", "download/comments: #{title}")
         download_comments(video)
 
-        @logs.d("downloader", "download thumbnail: #{title}")
+        @logs.d("downloader", "download/thumbnail: #{title}")
         download_thumbnail(video)
 
-        @logs.d("downloader", "modified: #{title}")
+        @logs.d("downloader", "download: #{title}")
         @videos.update_with_success(filename, filesize, id)
         sleep 30
       }
     rescue StandardError => e
-      @logs.e("downloader", "unavailable: #{title}")
-      @logs.e("downloader", e.message)
+      @logs.e("downloader", "download/unavailable: #{title}")
+      @logs.e("downloader", "download/unavailable: #{e.message}")
       $stderr.puts(e.backtrace)
       @videos.update_with_failure(id)
     end
@@ -128,8 +128,8 @@ class NicovideoDownloader
         download(row["id"], row["nicoVideoId"], row["title"])
       }
     rescue Exception => e
-      @logs.e("downloader", "an unexpected error has occurred")
-      @logs.e("downloader", e.message)
+      @logs.e("downloader", "error: #{e.message}")
+      @logs.e("downloader", "trace: #{e.backtrace}")
       $stderr.puts(e.backtrace)
     ensure
       Model::close

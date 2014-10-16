@@ -76,7 +76,7 @@ class Controller_channel_delete extends Controller {
 		}
 		$videos->delete_by_channel_id($this->channel["id"]);
 		$channels->delete($this->channel["id"]);
-		$logs->d("front", "channel deleted: " . $this->channel["title"]);
+		$logs->d("front", "channel/delete: " . $this->channel["title"]);
 
 		$this->is_success = true;
 		return $this->is_success;

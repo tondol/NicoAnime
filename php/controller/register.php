@@ -81,7 +81,7 @@ class Controller_register extends Controller {
 			$this->channel_title,
 			$this->channel_description,
 			$this->channel_keywords);
-		$logs->d("front", "registered: " . $this->channel_title);
+		$logs->d("front", "register: " . $this->channel_title);
 
 		if ($result) {
 			$this->is_success = true;

@@ -72,7 +72,7 @@ class Controller_channel_video_delete extends Controller {
 
 		$this->clean_files($this->video);
 		$videos->delete_logically($this->video["id"]);
-		$logs->d("front", "video deleted: " . $this->video["title"]);
+		$logs->d("front", "channel/video/delete: " . $this->video["title"]);
 
 		$this->is_success = true;
 		return $this->is_success;

@@ -18,7 +18,7 @@ class NicovideoCrawler
 
   def crawl_sub(id, modified_at, item)
     @nicovideo.watch(item.video_id) {|video|
-      @logs.d("crawler", "create: #{video.title}")
+      @logs.d("crawler", "crawl/insert: #{video.title}")
       @videos.insert_into(id, video.video_id, video.title, video.description)
     }
   end
@@ -39,13 +39,13 @@ class NicovideoCrawler
           crawl_sub(id, modified_at, item)
           num_inserted += 1
         rescue Exception => e
-          @logs.e("crawler", "unavailable: #{item.title}")
-          @logs.e("crawler", e.message)
+          @logs.e("crawler", "crawl/unavailable: #{item.title}")
+          @logs.e("crawler", "crawl/unavailable: #{e.message}")
           $stderr.puts(e.backtrace)
         end
       }
   
-      @logs.d("crawler", "#{num_inserted} videos created: #{channel.creator}")
+      @logs.d("crawler", "crawl/insert: #{channel.creator} (#{num_inserted})")
       if num_inserted == 0
         @channels.update_without_modification(id)
         sleep 1
@@ -64,8 +64,8 @@ class NicovideoCrawler
         crawl(row["id"], row["nicoChannelId"], Model::db_time_to_time(row["modifiedAt"]))
       }
     rescue Exception => e
-      @logs.e("crawler", "an unexpected error has occurred")
-      @logs.e("crawler", e.message)
+      @logs.e("crawler", "error: #{e.message}")
+      @logs.e("crawler", "trace: #{e.backtrace}")
       $stderr.puts(e.backtrace)
     ensure
       Model::close
