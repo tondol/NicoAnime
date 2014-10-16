@@ -59,7 +59,7 @@ class Model_videos {
 	function sum_filesize() {
 		$sql = "SELECT SUM(`filesize`) AS `sum`" .
 			" FROM `videos`" .
-			" WHERE `downloadedAt` IS NOT NULL";
+			" WHERE `downloadedAt` IS NOT NULL AND `deletedAt` IS NULL";
 		$statement = $this->db->prepare($sql);
 		$statement->execute();
 		return $statement->fetchColumn();

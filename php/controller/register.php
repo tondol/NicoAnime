@@ -1,6 +1,7 @@
 <?php
 
 require_once 'channels.php';
+require_once 'logs.php';
 
 class Controller_register extends Controller {
 	private $db = null;
@@ -73,11 +74,14 @@ class Controller_register extends Controller {
 	}
 	function submit() {
 		$channels = new Model_channels();
+		$logs = new Model_logs();
+
 		$result = $channels->insert_into(
 			$this->channel_id,
 			$this->channel_title,
 			$this->channel_description,
 			$this->channel_keywords);
+		$logs->d("front", "registered: " . $this->channel_title);
 
 		if ($result) {
 			$this->is_success = true;
@@ -86,7 +90,6 @@ class Controller_register extends Controller {
 			$this->submission_error[] =
 				"タイトルの登録に失敗しました。";
 		}
-
 		return $this->is_success;
 	}
 	function run() {

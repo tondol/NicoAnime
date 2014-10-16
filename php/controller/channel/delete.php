@@ -2,6 +2,7 @@
 
 require_once 'channels.php';
 require_once 'videos.php';
+require_once 'logs.php';
 
 class Controller_channel_delete extends Controller {
 	private $db = null;
@@ -67,6 +68,7 @@ class Controller_channel_delete extends Controller {
 	function submit() {
 		$channels = new Model_channels();
 		$videos = new Model_videos();
+		$logs = new Model_logs();
 
 		$video_array = $videos->select_all_by_channel_id($this->channel["id"]);
 		foreach ($video_array as $video) {
@@ -74,6 +76,7 @@ class Controller_channel_delete extends Controller {
 		}
 		$videos->delete_by_channel_id($this->channel["id"]);
 		$channels->delete($this->channel["id"]);
+		$logs->d("front", "channel deleted: " . $this->channel["title"]);
 
 		$this->is_success = true;
 		return $this->is_success;

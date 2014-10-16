@@ -38,12 +38,14 @@ module Model
       statement.execute(6)
     end
     def update_with_modification(id)
+      # 新しいビデオが見つかったとき
       statement = @db.prepare("UPDATE `channels`" +
         " SET `crawledAt` = ?, `modifiedAt` = ?" +
         " WHERE `id` = ?")
       statement.execute(Time.now, Time.now, id)
     end
     def update_without_modification(id)
+      # 新しいビデオが見つからなかったとき
       statement = @db.prepare("UPDATE `channels`" +
         " SET `crawledAt` = ?" +
         " WHERE `id` = ?")
@@ -61,12 +63,14 @@ module Model
       @db = Model::db
     end
     def select
+      # 論理削除されたものをダウンロード対象から除く
       statement = @db.prepare("SELECT * FROM `videos`" +
         " WHERE `downloadedAt` IS NULL AND `deletedAt` IS NULL" +
         " ORDER BY `createdAt` ASC")
       statement.execute
     end
     def select_with_channel_id(channel_id)
+      # 論理削除されたものを衝突検査の対象に含める
       statement = @db.prepare("SELECT * FROM `videos`" +
         " WHERE `channelId` = ?")
       statement.execute(channel_id)
@@ -78,12 +82,14 @@ module Model
       statement.execute(channel_id, video_id, title, description, Time.now)
     end
     def update_with_success(filename, filesize, id)
+      # ビデオのダウンロードに成功したとき
       statement = @db.prepare("UPDATE `videos`" +
         " SET `filename` = ?, `filesize` = ?, `downloadedAt` = ?" +
         " WHERE `id` = ?")
       statement.execute(filename, filesize, Time.now, id)
     end
     def update_with_failure(id)
+      # ビデオのダウンロードに失敗したとき
       statement = @db.prepare("UPDATE `videos`" +
         " SET `retryCount` = `retryCount` + 1" +
         " WHERE `id` = ?")

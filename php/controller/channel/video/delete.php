@@ -2,6 +2,7 @@
 
 require_once 'channels.php';
 require_once 'videos.php';
+require_once 'logs.php';
 
 class Controller_channel_video_delete extends Controller {
 	private $db = null;
@@ -67,8 +68,11 @@ class Controller_channel_video_delete extends Controller {
 	}
 	function submit() {
 		$videos = new Model_videos();
+		$logs = new Model_logs();
+
 		$this->clean_files($this->video);
 		$videos->delete_logically($this->video["id"]);
+		$logs->d("front", "video deleted: " . $this->video["title"]);
 
 		$this->is_success = true;
 		return $this->is_success;
