@@ -3,7 +3,7 @@
 require_once 'channels.php';
 require_once 'videos.php';
 
-class Controller_unregister extends Controller {
+class Controller_channel_video_delete extends Controller {
 	private $db = null;
 	private $is_valid = true;
 	private $is_success = true;
@@ -11,16 +11,24 @@ class Controller_unregister extends Controller {
 	private $submission_error = array();
 
 	function get_url($chain=null) {
-		if ((is_null($chain) || $chain == $this->chain) && isset($this->channel['id'])) {
-			return parent::get_url() . "?id=" . $this->channel['id'];
+		if ((is_null($chain) || $chain == $this->chain) && isset($this->video['id'])) {
+			return parent::get_url() . "?id=" . $this->video['id'];
+		} else if ($chain == "channel" && isset($this->channel["id"])) {
+			return parent::get_url($chain) . "?id=" . $this->channel["id"];
+		} else if ($chain == "channel/video" && isset($this->video["id"])) {
+			return parent::get_url($chain) . "?id=" . $this->video["id"];
 		} else {
 			return parent::get_url($chain);
 		}
 	}
 
+	function get_video() {
+		$videos = new Model_videos();
+		$this->video = $videos->select($this->get['id']);
+	}
 	function get_channel() {
 		$channels = new Model_channels();
-		$this->channel = $channels->select($this->get['id']);
+		$this->channel = $channels->select($this->video['channelId']);
 	}
 	function clean_files($video) {
 		$filename = $video["filename"];
@@ -46,49 +54,45 @@ class Controller_unregister extends Controller {
 	}
 
 	function validate() {
+		$this->get_video();
 		$this->get_channel();
 
-		if (empty($this->channel)) {
+		if (empty($this->video)) {
 			$this->is_valid = false;
 			$this->validation_error[] =
-				"無効なタイトルが指定されました。";
-		}
-		if ((isset($this->post["confirm"]) || isset($this->post["submit"])) &&
-				$this->post["nicoChannelId"] != $this->channel["nicoChannelId"]) {
-			$this->is_valid = false;
-			$this->validation_error[] =
-				"確認用のチャンネル名が正しくありません。";
+				"無効なビデオが指定されました。";
 		}
 
 		return $this->is_valid;
 	}
 	function submit() {
-		$channels = new Model_channels();
 		$videos = new Model_videos();
-
-		$video_array = $videos->select_all_by_channel_id($this->get["id"]);
-		foreach ($video_array as $video) {
-			$this->clean_files($video);
-		}
-		$videos->delete_by_channel_id($this->get["id"]);
-		$channels->delete($this->get["id"]);
+		$this->clean_files($this->video);
+		$videos->delete_logically($this->video["id"]);
 
 		$this->is_success = true;
 		return $this->is_success;
 	}
 	function run() {
-		if (isset($this->post["confirm"])) {
+		if (isset($this->post["submit"])) {
 			$this->validate();
-			$this->set("channel", $this->channel);
-		} else if (isset($this->post["submit"])) {
-			$this->validate();
+			$this->set("video", $this->video);
 			$this->set("channel", $this->channel);
 
 			if ($this->is_valid) {
 				$this->submit();
 			}
+		} else if (isset($this->post["default"])) {
+			$this->validate();
+			if ($this->is_valid) {
+				header("Location: " . $this->get_url('channel/video'));
+			} else {
+				header("Location: " . $this->get_url('index'));
+			}
+			return;
 		} else {
 			$this->validate();
+			$this->set("video", $this->video);
 			$this->set("channel", $this->channel);
 		}
 

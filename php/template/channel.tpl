@@ -85,9 +85,9 @@
 
 <p>
 <?php
-	$unregister_url = $this->get_url("unregister") . "?id=" . $channel["id"];
+	$delete_url = $this->get_url("channel/delete") . "?id=" . $channel["id"];
 ?>
-	<a href="<?= h($unregister_url) ?>" class="btn btn-danger">このタイトルを削除する</a>
+	<a href="<?= h($delete_url) ?>" class="btn btn-danger">このタイトルを削除する</a>
 </p>
 
 <?php $this->include_template('include/footer.tpl') ?>

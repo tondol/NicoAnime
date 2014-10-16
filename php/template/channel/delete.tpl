@@ -11,14 +11,14 @@
 
 	if (isset($this->post["confirm"])) {
 		if ($is_valid) {
-			$this->include_template("unregister_confirm.tpl");
+			$this->include_template("channel/delete_confirm.tpl");
 		} else {
-			$this->include_template("unregister_default.tpl");
+			$this->include_template("channel/delete_default.tpl");
 		}
 	} else if (isset($this->post["submit"])) {
-		$this->include_template("unregister_submit.tpl");
+		$this->include_template("channel/delete_submit.tpl");
 	} else {
-		$this->include_template("unregister_default.tpl");
+		$this->include_template("channel/delete_default.tpl");
 	}
 ?>
 

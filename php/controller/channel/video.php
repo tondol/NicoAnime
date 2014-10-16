@@ -8,9 +8,9 @@ class Controller_channel_video extends Controller {
 		return $this->video["title"];
 	}
 	function get_url($chain=null) {
-		if ((is_null($chain) || $chain == $this->chain) && isset($this->get["id"])) {
+		if ((is_null($chain) || $chain == $this->chain) && isset($this->video["id"])) {
 			return parent::get_url() . "?id=" . $this->video["id"];
-		} else if ($chain == "channel" && isset($this->get["id"])) {
+		} else if ($chain == "channel" && isset($this->video["id"])) {
 			return parent::get_url($chain) . "?id=" . $this->channel["id"];
 		} else {
 			return parent::get_url($chain);

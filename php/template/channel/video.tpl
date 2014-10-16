@@ -49,7 +49,7 @@
 
 <p>
 	<a href="<?= h($video_url) ?>" class="btn btn-primary">
-		動画ファイルのダウンロード（<?= h($filesize) ?>MB）
+		ビデオのダウンロード（<?= h($filesize) ?>MB）
 	</a>
 	<a href="<?= h($comments_url) ?>" class="btn btn-default">
 		コメントのダウンロード
@@ -57,6 +57,17 @@
 	<a href="http://www.nicovideo.jp/watch/<?= h($video["nicoVideoId"]) ?>" class="btn btn-default">
 		公式動画
 	</a>
+</p>
+
+<div class="page-header">
+	<h2>maintenance <small>管理</small></h2>
+</div>
+
+<p>
+<?php
+	$delete_url = $this->get_url("channel/video/delete") . "?id=" . $this->video['id'];
+?>
+	<a href="<?= h($delete_url) ?>" class="btn btn-danger">ビデオを削除する</a>
 </p>
 
 <?php $this->include_template('include/footer.tpl') ?>
