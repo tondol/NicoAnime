@@ -38,14 +38,14 @@ module Model
       statement.execute(6)
     end
     def update_with_modification(id)
-      # 新しいビデオが見つかったとき
+      # 新しい動画が見つかったとき
       statement = @db.prepare("UPDATE `channels`" +
         " SET `crawledAt` = ?, `modifiedAt` = ?" +
         " WHERE `id` = ?")
       statement.execute(Time.now, Time.now, id)
     end
     def update_without_modification(id)
-      # 新しいビデオが見つからなかったとき
+      # 新しい動画が見つからなかったとき
       statement = @db.prepare("UPDATE `channels`" +
         " SET `crawledAt` = ?" +
         " WHERE `id` = ?")
@@ -82,14 +82,14 @@ module Model
       statement.execute(channel_id, video_id, title, description, Time.now)
     end
     def update_with_success(filename, filesize, id)
-      # ビデオのダウンロードに成功したとき
+      # 動画のダウンロードに成功したとき
       statement = @db.prepare("UPDATE `videos`" +
         " SET `filename` = ?, `filesize` = ?, `downloadedAt` = ?" +
         " WHERE `id` = ?")
       statement.execute(filename, filesize, Time.now, id)
     end
     def update_with_failure(id)
-      # ビデオのダウンロードに失敗したとき
+      # 動画のダウンロードに失敗したとき
       statement = @db.prepare("UPDATE `videos`" +
         " SET `retryCount` = `retryCount` + 1" +
         " WHERE `id` = ?")

@@ -9,7 +9,7 @@
 	<h1><?= h($channel["title"]) ?></h1>
 </div>
 <div class="page-header">
-	<h2>videos <small>ビデオ一覧</small></h2>
+	<h2>videos <small>動画一覧</small></h2>
 </div>
 
 <?php if (count($this->get("videos"))): ?>

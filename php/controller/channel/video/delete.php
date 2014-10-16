@@ -61,7 +61,7 @@ class Controller_channel_video_delete extends Controller {
 		if (empty($this->video)) {
 			$this->is_valid = false;
 			$this->validation_error[] =
-				"無効なビデオが指定されました。";
+				"無効な動画が指定されました。";
 		}
 
 		return $this->is_valid;

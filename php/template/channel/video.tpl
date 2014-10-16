@@ -49,7 +49,7 @@
 
 <p>
 	<a href="<?= h($video_url) ?>" class="btn btn-primary">
-		ビデオのダウンロード（<?= h($filesize) ?>MB）
+		動画のダウンロード（<?= h($filesize) ?>MB）
 	</a>
 	<a href="<?= h($comments_url) ?>" class="btn btn-default">
 		コメントのダウンロード
@@ -67,7 +67,7 @@
 <?php
 	$delete_url = $this->get_url("channel/video/delete") . "?id=" . $this->video['id'];
 ?>
-	<a href="<?= h($delete_url) ?>" class="btn btn-danger">ビデオを削除する</a>
+	<a href="<?= h($delete_url) ?>" class="btn btn-danger">動画を削除する</a>
 </p>
 
 <?php $this->include_template('include/footer.tpl') ?>
