@@ -69,6 +69,12 @@ class Model_channels {
 			current_date(),
 		));
 	}
+	function delete($id) {
+		$sql = "DELETE FROM `channels`" .
+			" WHERE `id` = ?";
+		$statement = $this->db->prepare($sql);
+		return $statement->execute(array($id));
+	}
 	function count() {
 		$sql = "SELECT COUNT(*) AS `count`" .
 			" FROM `channels`";

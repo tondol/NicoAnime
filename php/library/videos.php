@@ -31,6 +31,12 @@ class Model_videos {
 		$statement->execute();
 		return $statement->fetchColumn();
 	}
+	function delete_by_channel_id($channel_id) {
+		$sql = "DELETE FROM `videos`" .
+			" WHERE `channelId` = ?";
+		$statement = $this->db->prepare($sql);
+		return $statement->execute(array($channel_id));
+	}
 	function count_not_downloaded() {
 		$sql = "SELECT COUNT(*) AS `count`" .
 			" FROM `videos`" .

@@ -9,7 +9,7 @@
 	<h1><?= h($channel["title"]) ?></h1>
 </div>
 <div class="page-header">
-	<h2>videos <small>動画一覧</small></h2>
+	<h2>videos <small>ビデオ一覧</small></h2>
 </div>
 
 <?php if (count($this->get("videos"))): ?>
@@ -77,6 +77,17 @@
 	<a href="http://ch.nicovideo.jp/<?= h($channel["nicoChannelId"]) ?>" class="btn btn-default">
 		公式ページ
 	</a>
+</p>
+
+<div class="page-header">
+	<h2>mainteinance <small>管理</small></h2>
+</div>
+
+<p>
+<?php
+	$unregister_url = $this->get_url("unregister") . "?id=" . $channel["id"];
+?>
+	<a href="<?= h($unregister_url) ?>" class="btn btn-danger">このタイトルを削除する</a>
 </p>
 
 <?php $this->include_template('include/footer.tpl') ?>

@@ -11,4 +11,4 @@ db:
   name: nicoanime
 
 # ダウンロードしたファイルの保存先（絶対パス）
-contents: /home/fuga/nicoanime/public/contents/
+contents: /home/fuga/www/nicoanime/public/contents/

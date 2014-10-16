@@ -11,7 +11,7 @@
 
 <?php if ($is_valid && $is_success): ?>
 <div class="alert alert-success">
-	登録が完了しました。
+	削除が完了しました。
 	<span class="label label-success">成功</span>
 </div>
 <?php elseif ($is_valid): ?>

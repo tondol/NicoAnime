@@ -32,7 +32,7 @@ $ cp config.php.sample config.php
 $ vim config.php
 ~~~~
 
-サイトURL，MySQLへの接続設定（ホスト名，データベース名，ユーザー名，パスワード）を編集します。
+サイトURL，MySQLへの接続設定（ホスト名，データベース名，ユーザー名，パスワード），ビデオのダウンロード先パスを編集します。
 
 ### ruby/config.ymlの編集
 
@@ -42,11 +42,11 @@ $ cp config.yml.sample config.yml
 $ vim config.yml
 ~~~~
 
-動画のダウンロードに使用するアカウントの設定（メールアドレス，パスワード），MySQLへの接続設定，動画のダウンロード先パスを編集します。
+動画のダウンロードに使用するアカウントの設定（メールアドレス，パスワード），MySQLへの接続設定，ビデオのダウンロード先パスを編集します。
 
 ### rtmpdumpの導入
 
-rtmpeプロトコルの動画をダウンロードするため，下記のようにして[rtmpdump](http://rtmpdump.mplayerhq.hu/)を導入します。
+rtmpeプロトコルのビデオをダウンロードするため，下記のようにして[rtmpdump](http://rtmpdump.mplayerhq.hu/)を導入します。
 rtmpdumpの実行ファイルはパスの通っている場所に配置する必要があります。
 
 ~~~~
@@ -112,6 +112,14 @@ MAILTO=""
 NICOANIME_DIR=/home/fuga/www/nicoanime/ruby
 00 * * * * ruby $NICOANIME_DIR/crawler.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
 30 * * * * ruby $NICOANIME_DIR/downloader.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
+~~~~
+
+### パーミッションの設定
+
+chmodコマンドなどにより，phpのスクリプトを実行するユーザーとcrontabを実行するユーザーが，それぞれビデオのダウンロード先パスにファイルを作成・削除できるように設定します。
+
+~~~~
+$ chmod o+w ~/www/nicoanime/public/contents
 ~~~~
 
 HOW TO USE

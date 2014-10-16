@@ -23,6 +23,7 @@ $config = array(
 		'channel' => 'channel',
 		'channel/video' => 'video',
 		'register' => 'register',
+		'unregister' => 'unregister',
 		'logs' => 'logs',
 		'help' => 'help',
 		'missing' => 'missing',
@@ -39,4 +40,7 @@ $config = array(
 		'user' => 'fuga',
 		'password' => 'piyo',
 	),
+
+	// コンテンツの保存先（絶対パス）
+	'contents' => '/home/fuga/www/nicoanime/public/contents/',
 );

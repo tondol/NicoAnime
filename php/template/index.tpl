@@ -8,7 +8,7 @@
 <p>初めての方は<a href="<?= h($this->get_url("help")) ?>">help</a>をどうぞ。</p>
 
 <div class="page-header">
-	<h2>channels <small>チャンネル一覧</small></h2>
+	<h2>channels <small>タイトル一覧</small></h2>
 </div>
 
 <?php if (count($this->get("channels"))): ?>
