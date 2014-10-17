@@ -12,7 +12,7 @@ module Model
       config["db"]["user"],
       config["db"]["password"],
       config["db"]["name"])
-    @@db.charset = "utf-8"
+    @@db.charset = "utf8"
   end
   def self.close
     @@db.close
