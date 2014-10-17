@@ -80,7 +80,7 @@
 </p>
 
 <div class="page-header">
-	<h2>mainteinance <small>管理</small></h2>
+	<h2>maintenance <small>管理</small></h2>
 </div>
 
 <p>
