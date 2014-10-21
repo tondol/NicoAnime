@@ -67,7 +67,7 @@
 <?php
 	$delete_url = $this->get_url("channel/video/delete") . "?id=" . $this->video['id'];
 ?>
-	<a href="<?= h($delete_url) ?>" class="btn btn-danger">動画を削除する</a>
+	<a href="<?= h($delete_url) ?>" class="btn btn-danger">この動画を削除する</a>
 </p>
 
 <?php $this->include_template('include/footer.tpl') ?>

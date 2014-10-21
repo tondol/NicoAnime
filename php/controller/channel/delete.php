@@ -27,7 +27,7 @@ class Controller_channel_delete extends Controller {
 	}
 	function clean_files($video) {
 		$filename = $video["filename"];
-		$filepath = $this->config["contents"] . $filename;
+		$filepath = $this->config["contents_dir"] . $filename;
 		if (empty($filename)) {
 			return;
 		}
@@ -36,13 +36,13 @@ class Controller_channel_delete extends Controller {
 		}
 
 		$filename = $video["nicoVideoId"] . ".xml";
-		$filepath = $this->config["contents"] . $filename;
+		$filepath = $this->config["contents_dir"] . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
 		}
 
 		$filename = $video["nicoVideoId"] . ".jpg";
-		$filepath = $this->config["contents"] . $filename;
+		$filepath = $this->config["contents_dir"] . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
 		}

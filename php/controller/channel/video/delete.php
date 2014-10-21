@@ -31,9 +31,9 @@ class Controller_channel_video_delete extends Controller {
 		$channels = new Model_channels();
 		$this->channel = $channels->select($this->video['channelId']);
 	}
-	function clean_files($video) {
-		$filename = $video["filename"];
-		$filepath = $this->config["contents"] . $filename;
+	function clean_files() {
+		$filename = $this->video["filename"];
+		$filepath = $this->config["contents_dir"] . $filename;
 		if (empty($filename)) {
 			return;
 		}
@@ -41,14 +41,14 @@ class Controller_channel_video_delete extends Controller {
 			unlink($filepath);
 		}
 
-		$filename = $video["nicoVideoId"] . ".xml";
-		$filepath = $this->config["contents"] . $filename;
+		$filename = $this->video["nicoVideoId"] . ".xml";
+		$filepath = $this->config["contents_dir"] . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
 		}
 
-		$filename = $video["nicoVideoId"] . ".jpg";
-		$filepath = $this->config["contents"] . $filename;
+		$filename = $this->video["nicoVideoId"] . ".jpg";
+		$filepath = $this->config["contents_dir"] . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
 		}
@@ -70,7 +70,7 @@ class Controller_channel_video_delete extends Controller {
 		$videos = new Model_videos();
 		$logs = new Model_logs();
 
-		$this->clean_files($this->video);
+		$this->clean_files();
 		$videos->delete_logically($this->video["id"]);
 		$logs->d("front", "channel/video/delete: " . $this->video["title"]);
 
@@ -78,7 +78,11 @@ class Controller_channel_video_delete extends Controller {
 		return $this->is_success;
 	}
 	function run() {
-		if (isset($this->post["submit"])) {
+		if (isset($this->post["confirm"])) {
+			$this->validate();
+			$this->set("video", $this->video);
+			$this->set("channel", $this->channel);
+		} else if (isset($this->post["submit"])) {
 			$this->validate();
 			$this->set("video", $this->video);
 			$this->set("channel", $this->channel);
@@ -86,14 +90,6 @@ class Controller_channel_video_delete extends Controller {
 			if ($this->is_valid) {
 				$this->submit();
 			}
-		} else if (isset($this->post["default"])) {
-			$this->validate();
-			if ($this->is_valid) {
-				header("Location: " . $this->get_url('channel/video'));
-			} else {
-				header("Location: " . $this->get_url('index'));
-			}
-			return;
 		} else {
 			$this->validate();
 			$this->set("video", $this->video);

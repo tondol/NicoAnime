@@ -3,12 +3,6 @@
 	$video = $this->get("video");
 	$is_valid = $this->get("is_valid");
 	$validation_error = $this->get("validation_error");
-
-	if ($is_valid) {
-		$group_class = "form-group";
-	} else {
-		$group_class = "form-group has-error";
-	}
 ?>
 
 <div class="page-header">
@@ -26,12 +20,12 @@
 			<textarea class="form-control"><?= h($video['description']) ?></textarea>
 		</div>
 	</fieldset>
-	<div class="<?= h($group_class) ?>">
 <?php if (!$is_valid): ?>
+	<div class="form-group has-error">
 		<p class="help-block">
 			<?= nl2br_h(implode("\n", $validation_error)) ?>
 		</p>
-<?php endif ?>
 	</div>
-	<button name="default" type="submit" class="btn btn-default">戻る</button>
+<?php endif ?>
+	<button name="confirm" type="submit" class="btn btn-primary">確認する</button>
 </form>
