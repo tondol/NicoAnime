@@ -22,12 +22,13 @@ Install
 
 ~~~~
 $ git clone https://github.com/tondol/NicoAnime.git ~/www/nicoanime
+$ cd ~/www/nicoanime
+$ git submodule update --init
 ~~~~
 
 ### config.ymlの編集
 
 ~~~~
-$ cd ~/www/nicoanime
 $ cp config.yml.sample config.yml
 $ vim config.yml
 ~~~~
