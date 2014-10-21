@@ -24,25 +24,15 @@ Install
 $ git clone https://github.com/tondol/NicoAnime.git ~/www/nicoanime
 ~~~~
 
-### php/config.phpの編集
+### config.ymlの編集
 
 ~~~~
-$ cd ~/www/nicoanime/php
-$ cp config.php.sample config.php
-$ vim config.php
-~~~~
-
-サイトURL，MySQLへの接続設定（ホスト名，データベース名，ユーザー名，パスワード），動画のダウンロード先パスを編集します。
-
-### ruby/config.ymlの編集
-
-~~~~
-$ cd ~/www/nicoanime/ruby
+$ cd ~/www/nicoanime
 $ cp config.yml.sample config.yml
 $ vim config.yml
 ~~~~
 
-動画のダウンロードに使用するアカウントの設定（メールアドレス，パスワード），MySQLへの接続設定，動画のダウンロード先パスを編集します。
+MySQLへの接続設定（ホスト名，データベース名，ユーザー名，パスワード），動画のダウンロードに使用するアカウントの設定（メールアドレス，パスワード）などを編集します。
 
 ### rtmpdumpの導入
 
