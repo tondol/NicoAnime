@@ -31,6 +31,7 @@ class Model_channels {
 				" SELECT * FROM `videos`" .
 				" WHERE `downloadedAt` IN (" .
 					" SELECT MAX(`downloadedAt`) FROM `videos`" .
+					" WHERE `deletedAt` IS NULL" .
 					" GROUP BY `channelId`" .
 				" )" .
 			" ) AS `t2` ON `t1`.`id` = `t2`.`channelId`" .
