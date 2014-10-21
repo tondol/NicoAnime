@@ -23,7 +23,7 @@ class NicovideoCollector
         db_filenames << video["filename"]
       }
       fs_filenames = []
-      Dir.entries(@config["contents"]).each {|entry|
+      Dir.entries(@config["contents_dir"]).each {|entry|
         next if entry == "." || entry == ".."
         next if entry.end_with?(".jpg") || entry.end_with?(".xml")
         fs_filenames << entry
@@ -36,7 +36,7 @@ class NicovideoCollector
       puts "exist only in directory"
       (fs_filenames - db_filenames).each {|filename|
         puts filename
-        filepath = @config["contents"] + filename
+        filepath = @config["contents_dir"] + filename
         File.delete(filepath)
       }
     rescue Exception => e
