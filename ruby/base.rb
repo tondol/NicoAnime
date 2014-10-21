@@ -70,11 +70,16 @@ module Model
         " ORDER BY `createdAt` ASC")
       statement.execute
     end
-    def select_with_channel_id(channel_id)
+    def select_by_channel_id(channel_id)
       # 論理削除されたものを衝突検査の対象に含める
       statement = @db.prepare("SELECT * FROM `videos`" +
         " WHERE `channelId` = ?")
       statement.execute(channel_id)
+    end
+    def select_all
+      statement = @db.prepare("SELECT * FROM `videos`" +
+        " WHERE `downloadedAt` IS NOT NULL AND `deletedAt` IS NULL")
+      statement.execute
     end
     def insert_into(channel_id, video_id, title, description)
       statement = @db.prepare("INSERT INTO `videos`" +
@@ -100,10 +105,10 @@ module Model
         " WHERE `id` = ? AND `retryCount` >= 3")
       statement.execute(Time.now, id)
     end
-    def delete_with_channel_id(channel_id)
+    def delete_by_filename(filename)
       statement = @db.prepare("DELETE FROM `videos`" +
-        " WHERE `channelId` = ?")
-      statement.execute(channel_id)
+        " WHERE `filename` = ?")
+      statement.execute(filename)
     end
   end
 

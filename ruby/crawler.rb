@@ -26,7 +26,7 @@ class NicovideoCrawler
     num_inserted = 0
     hash = {}
 
-    @videos.select_with_channel_id(id).each_hash {|video|
+    @videos.select_by_channel_id(id).each_hash {|video|
       hash[video["nicoVideoId"]] = true
     }
 
