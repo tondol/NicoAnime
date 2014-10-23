@@ -18,17 +18,18 @@
 		<?php
 			$video_url = $this->get_url("channel/video") . "?id=" . $video["id"];
 			$thumb_url = $this->get_public("contents/" . $video["nicoVideoId"] . ".jpg");
-			$unavailable_url = $this->get_public("assets/images/unavailable.png");
 			$filesize = sprintf("%.2f", $video["filesize"] / 1000000.0);
 		?>
 	<div class="col-sm-4 col-md-3">
 		<div class="thumbnail">
-		<?php if (isset($video["downloadedAt"]) && !isset($video["deletedAt"])): ?>
+		<?php if (isset($video["deletedAt"])): ?>
+			<div class="text-box"><span>UNAVAILABLE</span></div>
+		<?php elseif (!isset($video["downloadedAt"])): ?>
+			<div class="text-box"><span>NOW DOWNLOADING</span></div>
+		<?php else: ?>
 			<a href="<?= h($video_url) ?>">
 				<img src="<?= h($thumb_url) ?>" />
 			</a>
-		<?php else: ?>
-				<img src="<?= h($unavailable_url) ?>" />
 		<?php endif ?>
 			<div class="caption">
 				<p><?= h($video["title"]) ?></p>

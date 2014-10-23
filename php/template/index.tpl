@@ -16,7 +16,6 @@
 	<?php foreach ($this->get("channels") as $channel): ?>
 		<?php
 			$thumbnail_url = $this->get_public("contents/" . $channel["nicoVideoId"] . ".jpg");
-			$unavailable_url = $this->get_public("assets/images/unavailable.png");
 			$channel_url = $this->get_url("channel") . "?id=" . $channel["id"];
 		?>
 	<div class="col-sm-4 col-md-3">
@@ -25,7 +24,7 @@
 		<?php if (isset($channel["downloadedAt"])): ?>
 				<img src="<?= h($thumbnail_url) ?>" />
 		<?php else: ?>
-				<img src="<?= h($unavailable_url) ?>" />
+				<div class="text-box"><span>NOW DOWNLOADING</span></div>
 		<?php endif ?>
 			</a>
 			<div class="caption">
