@@ -18,8 +18,10 @@ class Model_videos {
 	function select_all_by_channel_id($channel_id) {
 		$sql = "SELECT *" .
 			" FROM `videos`" .
-			" WHERE `channelId` = ? AND `deletedAt` IS NULL" .
-			" ORDER BY `downloadedAt` IS NULL DESC, `downloadedAt` DESC";
+			" WHERE `channelId` = ?" .
+			" ORDER BY `downloadedAt` IS NULL ASC," .
+                        " `deletedAt` IS NULL DESC," .
+                        " `downloadedAt` DESC";
 		$statement = $this->db->prepare($sql);
 		$statement->execute(array($channel_id));
 		return $statement->fetchAll(PDO::FETCH_ASSOC);

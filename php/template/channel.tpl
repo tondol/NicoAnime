@@ -23,7 +23,7 @@
 		?>
 	<div class="col-sm-4 col-md-3">
 		<div class="thumbnail">
-		<?php if (isset($video["downloadedAt"])): ?>
+		<?php if (isset($video["downloadedAt"]) && !isset($video["deletedAt"])): ?>
 			<a href="<?= h($video_url) ?>">
 				<img src="<?= h($thumb_url) ?>" />
 			</a>
@@ -32,7 +32,7 @@
 		<?php endif ?>
 			<div class="caption">
 				<p><?= h($video["title"]) ?></p>
-		<?php if (isset($video["downloadedAt"])): ?>
+		<?php if (isset($video["downloadedAt"]) && !isset($video["deletedAt"])): ?>
 				<p><a href="<?= h($video_url) ?>" class="btn btn-primary">
 					再生する（<?= h($filesize) ?>MB）
 				</a></p>
