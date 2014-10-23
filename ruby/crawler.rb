@@ -16,27 +16,27 @@ class NicovideoCrawler
     @logs = Model::Logs.new
   end
 
-  def crawl_sub(id, modified_at, item)
-    @nicovideo.watch(item.video_id) {|video|
-      @logs.d("crawler", "crawl/insert: #{video.title}")
-      @videos.insert_into(id, video.video_id, video.title, video.description)
+  def crawl_sub(channel, item)
+    @nicovideo.watch(item.video_id) {|nv_video|
+      @logs.d("crawler", "crawl/insert: #{nv_video.title}")
+      @videos.insert_into(channel["id"], nv_video.video_id, nv_video.title, nv_video.description)
     }
   end
-  def crawl(id, channel_id, modified_at)
+  def crawl(channel)
     num_inserted = 0
     hash = {}
 
-    @videos.select_by_channel_id(id).each_hash {|video|
+    @videos.select_all_by_channel_id(channel["id"]).each_hash {|video|
       hash[video["nicoVideoId"]] = true
     }
 
-    @nicovideo.channel(channel_id) {|channel|
-      @logs.d("crawler", "crawl: #{channel.creator}")
-      channel.items.reverse_each {|item|
+    @nicovideo.channel(channel["nicoChannelId"]) {|nv_channel|
+      @logs.d("crawler", "crawl: #{nv_channel.creator}")
+      nv_channel.items.reverse_each {|item|
         begin
           next if hash.key?(item.video_id)
           hash[item.video_id] = true
-          crawl_sub(id, modified_at, item)
+          crawl_sub(channel, item)
           num_inserted += 1
         rescue Exception => e
           @logs.e("crawler", "crawl/unavailable: #{item.title}")
@@ -45,12 +45,12 @@ class NicovideoCrawler
         end
       }
   
-      @logs.d("crawler", "crawl/insert: #{channel.creator} (#{num_inserted})")
+      @logs.d("crawler", "crawl/insert: #{nv_channel.creator} (#{num_inserted})")
       if num_inserted == 0
-        @channels.update_without_modification(id)
+        @channels.update_without_modification(channel["id"])
         sleep 1
       else
-        @channels.update_with_modification(id)
+        @channels.update_with_modification(channel["id"])
         sleep 1
       end
     }
@@ -60,8 +60,9 @@ class NicovideoCrawler
     @nicovideo = Nicovideo.login(@config["nv"]["mail"], @config["nv"]["password"])
 
     begin
-      @channels.select.each_hash {|row|
-        crawl(row["id"], row["nicoChannelId"], Model::db_time_to_time(row["modifiedAt"]))
+      @channels.select_all.each_hash {|video|
+        video["modifiedAt"] = Model::db_time_to_time(video["modifiedAt"])
+        crawl(video)
       }
     rescue Exception => e
       @logs.e("crawler", "error: #{e.message}")

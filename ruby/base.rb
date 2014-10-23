@@ -32,7 +32,7 @@ module Model
     def initialize
       @db = Model::db
     end
-    def select
+    def select_all
       statement = @db.prepare("SELECT * FROM `channels`" +
         " WHERE `crawledAt` IS NULL OR `crawledAt` < NOW() - INTERVAL ? HOUR" +
         " ORDER BY `crawledAt` ASC")
@@ -63,23 +63,23 @@ module Model
     def initialize
       @db = Model::db
     end
-    def select
+    def select_all_downloaded
+      statement = @db.prepare("SELECT * FROM `videos`" +
+        " WHERE `downloadedAt` IS NOT NULL AND `deletedAt` IS NULL")
+      statement.execute
+    end
+    def select_all_not_downloaded
       # 論理削除されたものをダウンロード対象から除く
       statement = @db.prepare("SELECT * FROM `videos`" +
         " WHERE `downloadedAt` IS NULL AND `deletedAt` IS NULL" +
         " ORDER BY `createdAt` ASC")
       statement.execute
     end
-    def select_by_channel_id(channel_id)
+    def select_all_by_channel_id(channel_id)
       # 論理削除されたものを衝突検査の対象に含める
       statement = @db.prepare("SELECT * FROM `videos`" +
         " WHERE `channelId` = ?")
       statement.execute(channel_id)
-    end
-    def select_all
-      statement = @db.prepare("SELECT * FROM `videos`" +
-        " WHERE `downloadedAt` IS NOT NULL AND `deletedAt` IS NULL")
-      statement.execute
     end
     def insert_into(channel_id, video_id, title, description)
       statement = @db.prepare("INSERT INTO `videos`" +
@@ -87,7 +87,7 @@ module Model
         " VALUES (?, ?, ?, ?, ?)")
       statement.execute(channel_id, video_id, title, description, Time.now)
     end
-    def update_with_success(filename, filesize, id)
+    def update_with_success(id, filename, filesize)
       # 動画のダウンロードに成功したとき
       statement = @db.prepare("UPDATE `videos`" +
         " SET `filename` = ?, `filesize` = ?, `downloadedAt` = ?" +

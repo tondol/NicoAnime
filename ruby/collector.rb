@@ -19,7 +19,7 @@ class NicovideoCollector
   def main
     begin
       db_filenames = []
-      @videos.select_all.each_hash {|video|
+      @videos.select_all_downloaded.each_hash {|video|
         db_filenames << video["filename"]
       }
       fs_filenames = []

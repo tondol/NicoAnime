@@ -15,10 +15,10 @@ class NicovideoDownloader
     @videos = Model::Videos.new
   end
 
-  def download_via_http(video)
-    binary = video.video
-    filename = "#{video.video_id}.#{video.type}"
-    filepath = "#{@config["contents_dir"]}#{filename}"
+  def download_via_http(nv_video)
+    binary = nv_video.video
+    filename = "#{nv_video.video_id}.#{nv_video.type}"
+    filepath = @config["contents_dir"] + filename
     filesize = binary.bytesize
 
     File.open(filepath, "wb") {|f|
@@ -27,20 +27,20 @@ class NicovideoDownloader
 
     return filename, filesize
   end
-  def download_via_rtmp(video)
-    params = video.send(:get_params)
+  def download_via_rtmp(nv_video)
+    params = nv_video.send(:get_params)
     url = URI.parse(URI.decode(params['url']))
     fmst = URI.decode(params['fmst']).split(":")
     playpath = url.query.sub("m=", "")
 
     tc_url = "#{url.scheme}://#{url.host}#{url.path}"
-    page_url = "http://www.nicovideo.jp/watch/#{video.video_id}"
+    page_url = "http://www.nicovideo.jp/watch/#{nv_video.video_id}"
     swf_url = "http://res.nimg.jp/swf/player/secure_nccreator.swf?t=201111091500"
     flash_ver = %q{"WIN 11,6,602,180"}
 
     resume = ""
-    filename = "#{video.video_id}.flv"
-    filepath = "#{@config["contents_dir"]}#{filename}"
+    filename = "#{nv_video.video_id}.flv"
+    filepath = @config["contents_dir"] + filename
 
     50.times {|i|
       system("rtmpdump" +
@@ -69,54 +69,54 @@ class NicovideoDownloader
       raise Nicovideo::UnavailableVideoError.new
     end
   end
-  def download_comments(video)
-    filename = "#{video.video_id}.xml"
-    filepath = "#{@config["contents_dir"]}#{filename}"
+  def download_comments(nv_video)
+    filename = "#{nv_video.video_id}.xml"
+    filepath = @config["contents_dir"] + filename
 
     File.open(filepath, "wb") {|f|
-      f.write(video.comments(500))
+      f.write(nv_video.comments(500))
     }
   end
-  def download_thumbnail(video)
-    filename = "#{video.video_id}.jpg"
-    filepath = "#{@config["contents_dir"]}#{filename}"
+  def download_thumbnail(nv_video)
+    filename = "#{nv_video.video_id}.jpg"
+    filepath = @config["contents_dir"] + filename
 
     File.open(filepath, "wb") {|f|
-      f.write(video.thumbnail)
+      f.write(nv_video.thumbnail)
     }
   end
-  def download(id, video_id, title)
+  def download(video)
     begin
-      @nicovideo.watch(video_id) {|video|
+      @nicovideo.watch(video["nicoVideoId"]) {|nv_video|
         filename = filesize = nil
-        params = video.send(:get_params)
+        params = nv_video.send(:get_params)
         url = URI.parse(URI.decode(params["url"]))
 
         if url.scheme == "http"
-          @logs.d("downloader", "download/video: #{title} (http)")
-          filename, filesize = download_via_http(video)
+          @logs.d("downloader", "download/video: #{video["title"]} (http)")
+          filename, filesize = download_via_http(nv_video)
         elsif url.scheme == "rtmpe"
-          @logs.d("downloader", "download/video: #{title} (rtmp)")
-          filename, filesize = download_via_rtmp(video)
+          @logs.d("downloader", "download/video: #{video["title"]} (rtmp)")
+          filename, filesize = download_via_rtmp(nv_video)
         else
           raise Nicovideo::UnavailableVideoError.new
         end
 
-        @logs.d("downloader", "download/comments: #{title}")
-        download_comments(video)
+        @logs.d("downloader", "download/comments: #{video["title"]}")
+        download_comments(nv_video)
 
-        @logs.d("downloader", "download/thumbnail: #{title}")
-        download_thumbnail(video)
+        @logs.d("downloader", "download/thumbnail: #{video["title"]}")
+        download_thumbnail(nv_video)
 
-        @logs.d("downloader", "download: #{title}")
-        @videos.update_with_success(filename, filesize, id)
+        @logs.d("downloader", "download: #{video["title"]}")
+        @videos.update_with_success(video["id"], filename, filesize)
         sleep 30
       }
     rescue StandardError => e
-      @logs.e("downloader", "download/unavailable: #{title}")
+      @logs.e("downloader", "download/unavailable: #{video["title"]}")
       @logs.e("downloader", "download/unavailable: #{e.message}")
       $stderr.puts(e.backtrace)
-      @videos.update_with_failure(id)
+      @videos.update_with_failure(video["id"])
     end
   end
   def main
@@ -124,8 +124,8 @@ class NicovideoDownloader
     @nicovideo = Nicovideo.login(@config["nv"]["mail"], @config["nv"]["password"])
 
     begin
-      @videos.select.each_hash {|row|
-        download(row["id"], row["nicoVideoId"], row["title"])
+      @videos.select_all_not_downloaded.each_hash {|video|
+        download(video)
       }
     rescue Exception => e
       @logs.e("downloader", "error: #{e.message}")
