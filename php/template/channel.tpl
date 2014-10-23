@@ -38,7 +38,9 @@
 					再生する（<?= h($filesize) ?>MB）
 				</a></p>
 		<?php else: ?>
-				<p><a class="btn btn-primary disabled">未ダウンロード</a></p>
+				<p><a class="btn btn-primary disabled">
+					未ダウンロード
+				</a></p>
 		<?php endif ?>
 			</div><!-- /caption -->
 		</div><!-- /thumbnail -->

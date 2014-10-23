@@ -35,7 +35,8 @@ class Model_channels {
 					" GROUP BY `channelId`" .
 				" )" .
 			" ) AS `t2` ON `t1`.`id` = `t2`.`channelId`" .
-			" ORDER BY `t1`.`modifiedAt` DESC";
+			" ORDER BY `t2`.`downloadedAt` IS NULL ASC," .
+			" `t1`.`modifiedAt` DESC";
 		$statement = $this->db->prepare($sql);
 		$statement->execute();
 		return $statement->fetchAll(PDO::FETCH_ASSOC);

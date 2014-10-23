@@ -29,9 +29,15 @@
 			</a>
 			<div class="caption">
 				<p><?= h($channel["title"]) ?></p>
+		<?php if (isset($channel["downloadedAt"])): ?>
 				<p><a href="<?= h($channel_url) ?>" class="btn btn-primary">
 					動画一覧を見る
 				</a></p>
+		<?php else: ?>
+				<p><a href="<?= h($channel_url) ?>" class="btn btn-info">
+					未ダウンロード
+				</a></p>
+		<?php endif ?>
 			</div><!-- /caption -->
 		</div><!-- /thumbnail -->
 	</div><!-- /col -->
