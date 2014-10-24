@@ -9,6 +9,8 @@ Requirements
 - Ruby（Version 1.9 もしくはそれ以降）
     - Ruby/MySQL
 - PHP（Version 5.3 もしくはそれ以降）
+    - DOM
+    - PDO (MySQL)
 - Apache
     - mod_rewrite
 - MySQL
