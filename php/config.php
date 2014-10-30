@@ -33,7 +33,6 @@ $config = array(
 		'help' => 'help',
 		'missing' => 'missing',
 	),
-
 );
 
 $config = array_merge($config, Spyc::YAMLLoad(dirname(SYSTEM_DIR) . '/config.yml'));
