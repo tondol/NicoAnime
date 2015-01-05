@@ -10,10 +10,10 @@ require_relative 'base'
 class NicovideoCrawler
   def initialize
     Model::connect
-    @config = Model::config
     @channels = Model::Channels.new
     @videos = Model::Videos.new
     @logs = Model::Logs.new
+    @config = Model::load_config
   end
 
   def crawl_sub(channel, item)
@@ -57,7 +57,9 @@ class NicovideoCrawler
   end
   def main
     # logs.d("crawler", ">> run: #{Time.now}")
-    @nicovideo = Nicovideo.login(@config["nv"]["mail"], @config["nv"]["password"])
+    @nicovideo = Nicovideo.login(@config["nv"]["mail"], @config["nv"]["password"], @config["nv"]["session"])
+    @session = @nicovideo.instance_variable_get(:@session)
+    @config["nv"]["session"] = @session
 
     begin
       @channels.select_all.each_hash {|video|
@@ -69,6 +71,7 @@ class NicovideoCrawler
       @logs.e("crawler", "trace: #{e.backtrace}")
       $stderr.puts(e.backtrace)
     ensure
+      Model::save_config(@config)
       Model::close
     end
   end

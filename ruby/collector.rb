@@ -10,10 +10,10 @@ require_relative 'base'
 class NicovideoCollector
   def initialize
     Model::connect
-    @config = Model::config
     @channels = Model::Channels.new
     @videos = Model::Videos.new
     @logs = Model::Logs.new
+    @config = Model::load_config
   end
 
   def main

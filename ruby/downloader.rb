@@ -10,9 +10,9 @@ require_relative 'base'
 class NicovideoDownloader
   def initialize
     Model::connect
-    @config = Model::config
     @logs = Model::Logs.new
     @videos = Model::Videos.new
+    @config = Model::load_config
   end
 
   def download_via_http(nv_video)
@@ -121,7 +121,9 @@ class NicovideoDownloader
   end
   def main
     # logs.d("downloader", ">> run: #{Time.now}")
-    @nicovideo = Nicovideo.login(@config["nv"]["mail"], @config["nv"]["password"])
+    @nicovideo = Nicovideo.login(@config["nv"]["mail"], @config["nv"]["password"], @config["nv"]["session"])
+    @session = @nicovideo.instance_variable_get(:@session)
+    @config["nv"]["session"] = @session
 
     begin
       @videos.select_all_not_downloaded.each_hash {|video|
@@ -132,6 +134,7 @@ class NicovideoDownloader
       @logs.e("downloader", "trace: #{e.backtrace}")
       $stderr.puts(e.backtrace)
     ensure
+      Model::save_config(@config)
       Model::close
     end
   end
