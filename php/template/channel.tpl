@@ -6,7 +6,7 @@
 ?>
 
 <div class="page-header">
-	<h1><?= h($channel["title"]) ?></h1>
+	<h1><?= h($this->get_title()) ?></h1>
 </div>
 <div class="page-header">
 	<h2>videos <small>動画一覧</small></h2>
@@ -68,7 +68,7 @@
 <?php else: ?>
 	<dd>記録なし</dd>
 <?php endif ?>
-	<dt>最終取得日時</dt>
+	<dt>クロール日時</dt>
 <?php if (isset($channel["crawledAt"])): ?>
 	<dd><?= h($channel["crawledAt"]) ?></dd>
 <?php else: ?>

@@ -16,6 +16,23 @@ class Model_channels {
 		$statement->execute(array($id));
 		return $statement->fetch(PDO::FETCH_ASSOC);
 	}
+	function select_by_video_id($video_id) {
+		$sql = "SELECT `t2`.*" .
+			" FROM `videos` AS `t1`" .
+			" RIGHT JOIN `channels` AS `t2` ON `t1`.`channelId` = `t2`.`id`" .
+			" WHERE `t1`.`id` = ?";
+		$statement = $this->db->prepare($sql);
+		$statement->execute(array($video_id));
+		return $statement->fetch(PDO::FETCH_ASSOC);
+	}
+	function select_by_nico_channel_id($channel_id) {
+		$sql = "SELECT *" .
+			" FROM `channels`" .
+			" WHERE `nicoChannelId` = ?";
+		$statement = $this->db->prepare($sql);
+		$statement->execute(array($channel_id));
+		return $statement->fetch(PDO::FETCH_ASSOC);
+	}
 	function select_all_with_videos() {
 		/*
                  * 各channelについて、最新のvideoをleft joinするための手順
@@ -41,22 +58,13 @@ class Model_channels {
 		$statement->execute();
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
-	function select_by_video_id($video_id) {
-		$sql = "SELECT `t2`.*" .
-			" FROM `videos` AS `t1`" .
-			" RIGHT JOIN `channels` AS `t2` ON `t1`.`channelId` = `t2`.`id`" .
-			" WHERE `t1`.`id` = ?";
+	function select_all_not_crawled() {
+		$sql = "SELECT * FROM `channels`" .
+			" WHERE `crawledAt` IS NULL OR `crawledAt` < NOW() - INTERVAL ? HOUR" .
+			" ORDER BY `crawledAt` ASC";
 		$statement = $this->db->prepare($sql);
-		$statement->execute(array($video_id));
-		return $statement->fetch(PDO::FETCH_ASSOC);
-	}
-	function select_by_nico_channel_id($channel_id) {
-		$sql = "SELECT *" .
-			" FROM `channels`" .
-			" WHERE `nicoChannelId` = ?";
-		$statement = $this->db->prepare($sql);
-		$statement->execute(array($channel_id));
-		return $statement->fetch(PDO::FETCH_ASSOC);
+		$statement->execute(array(6));
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	function insert_into($channel_id, $title, $description, $keywords) {
 		$sql = "INSERT INTO `channels`" .

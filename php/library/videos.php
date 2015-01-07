@@ -1,5 +1,7 @@
 <?php
 
+require_once 'db.php';
+
 class Model_videos {
 	function __construct() {
 		$this->config = &$GLOBALS["config"];
@@ -24,6 +26,15 @@ class Model_videos {
                         " `downloadedAt` DESC";
 		$statement = $this->db->prepare($sql);
 		$statement->execute(array($channel_id));
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	function select_all_not_downloaded() {
+		// 論理削除されたものをダウンロード対象から除く
+		$sql = "SELECT * FROM `videos`" .
+			" WHERE `downloadedAt` IS NULL AND `deletedAt` IS NULL" .
+			" ORDER BY `createdAt` ASC";
+		$statement = $this->db->prepare($sql);
+		$statement->execute();
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	function count() {
