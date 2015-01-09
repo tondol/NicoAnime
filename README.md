@@ -21,14 +21,6 @@ Install
 
 いくつかのステップが必要です。
 
-### 必要なファイル郡の設置
-
-~~~~
-$ git clone https://github.com/tondol/NicoAnime.git ~/www/nicoanime
-$ cd ~/www/nicoanime
-$ git submodule update --init
-~~~~
-
 ### rtmpdumpの導入
 
 rtmpeプロトコルの動画をダウンロードするため，下記のようにして[rtmpdump](http://rtmpdump.mplayerhq.hu/)を導入します。
@@ -41,6 +33,14 @@ $ cd ~/tmp/rtmpdump
 $ ./configure
 $ make
 $ sudo make install
+~~~~
+
+### 必要なファイル郡の設置
+
+~~~~
+$ git clone https://github.com/tondol/NicoAnime.git ~/www/nicoanime
+$ cd ~/www/nicoanime
+$ git submodule update --init
 ~~~~
 
 ### インストールスクリプトの実行
@@ -70,7 +70,7 @@ $ ./install.sh
 
 ~~~~
 $ cd ~/www/nicoanime/public
-$ cp .htaccess.sample .htaccess
+$ cp .htaccess.example .htaccess
 $ vim .htaccess
 ~~~~
 
