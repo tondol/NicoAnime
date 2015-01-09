@@ -8,6 +8,7 @@ Requirements
 
 - Ruby（Version 1.9 もしくはそれ以降）
     - Ruby/MySQL
+    - Bundler
 - PHP（Version 5.3 もしくはそれ以降）
     - DOM
     - PDO (MySQL)
@@ -28,15 +29,6 @@ $ cd ~/www/nicoanime
 $ git submodule update --init
 ~~~~
 
-### config.ymlの編集
-
-~~~~
-$ cp config.yml.example config.yml
-$ vim config.yml
-~~~~
-
-MySQLへの接続設定（ホスト名，データベース名，ユーザー名，パスワード），動画のダウンロードに使用するアカウントの設定（メールアドレス，パスワード）などを編集します。
-
 ### rtmpdumpの導入
 
 rtmpeプロトコルの動画をダウンロードするため，下記のようにして[rtmpdump](http://rtmpdump.mplayerhq.hu/)を導入します。
@@ -50,6 +42,16 @@ $ ./configure
 $ make
 $ sudo make install
 ~~~~
+
+### インストールスクリプトの実行
+
+~~~~
+$ ./install.sh
+~~~
+
+足りないものがある場合はインストールする旨のメッセージが出力され，終了します。
+必要なコマンド等が揃っていれば，設定入力のプロンプトが表示されるので，各項目を入力してください。
+無事完了すれば，必要なgemのインストールやテーブルの作成等が自動で行われます。
 
 ### httpd.confの編集
 
@@ -76,16 +78,6 @@ $ vim .htaccess
 必要に応じて，設定を追加してください（.htaccessを使用せずにhttpd.confに記述することももちろん可能です）。
 **Basic認証などの方法によりアクセス制限の設定を追加すること** を強くお薦めします。
 
-### 必要なテーブルを作成
-
-データベースに必要なテーブルを作成します。
-コマンド例のユーザー名（fuga）やデータベース名（nicoanime）は適宜変更してください。
-
-~~~~
-$ cd ~/www/nicoanime
-$ mysql -u fuga -p -default-character-set=utf8 nicoanime < INSTALL.sql
-~~~~
-
 ### crontabの設定
 
 ruby/crawler.rb と ruby/downloader.rb を定期実行するように設定します。
@@ -105,14 +97,6 @@ MAILTO=""
 NICOANIME_DIR=/home/fuga/www/nicoanime/ruby
 00 * * * * ruby $NICOANIME_DIR/crawler.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
 30 * * * * ruby $NICOANIME_DIR/downloader.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
-~~~~
-
-### パーミッションの設定
-
-chmodコマンドなどにより，phpのスクリプトを実行するユーザーとcrontabを実行するユーザーが，それぞれ動画のダウンロード先パスにファイルを作成・削除できるように設定します。
-
-~~~~
-$ chmod o+w ~/www/nicoanime/public/contents
 ~~~~
 
 HOW TO USE

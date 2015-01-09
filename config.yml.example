@@ -1,19 +1,19 @@
 # ニコニコ動画の設定
 nv:
-  mail: fuga@hoge.com
-  password: piyo
+  mail: foo@bar.com
+  password: baz
 
 # データベースの設定
 db:
   host: "127.0.0.1"
-  user: fuga
-  password: piyo
+  user: foo
+  password: bar
   database: nicoanime
 
 # サイトの設定
 application_title: NicoAnime
-application_url: http://fuga.hoge.com/
+application_url: http://foo.bar.com/
 
 # コンテンツの保存先（絶対パス）
-contents_dir: /home/fuga/www/nicoanime/public/contents/
-contents_url: http://fuga.hoge.com/contents/
+contents_dir: /home/foo/bar/contents/
+contents_url: http://foo.bar.com/contents/
