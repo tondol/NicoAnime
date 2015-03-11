@@ -12,8 +12,10 @@ module Model
     @@db = Mysql::new(config["db"]["host"],
       config["db"]["user"],
       config["db"]["password"],
-      config["db"]["database"])
+      config["db"]["database"],
+      config["db"]["port"])
     @@db.charset = "utf8"
+    @@db.query("SET NAMES UTF8")
   end
   def self.close
     @@db.close
