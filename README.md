@@ -53,20 +53,11 @@ $ ./install.sh
 必要なコマンド等が揃っていれば，設定入力のプロンプトが表示されるので，各項目を入力してください。
 無事完了すれば，必要なgemのインストールやテーブルの作成等が自動で行われます。
 
-### httpd.confの編集
+### apache/nginxの設定
 
 &lt;設置したパス&gt;/public をドキュメントルートとして設定します。
-
-~~~~
-# 記述例
-
-<VirtualHost *:80>
-    DocumentRoot /home/fuga/www/nicoanime/public
-    ServerName nicoanime.tondol.com
-</VirtualHost>
-~~~~
-
-### public/.htaccessの編集
+Pretty URLs対応のため，適宜URLのリダイレクト設定を行う必要があります。
+`.htaccess.example`がapache用のサンプルとして用意されています。
 
 ~~~~
 $ cd ~/www/nicoanime/public
@@ -74,8 +65,6 @@ $ cp .htaccess.example .htaccess
 $ vim .htaccess
 ~~~~
 
-設定ファイルへのアクセス制限や，ウェブ側UIを動作させるためのmod_rewriteの設定，Content-Typeの追加設定などが記述されています。
-必要に応じて，設定を追加してください（.htaccessを使用せずにhttpd.confに記述することももちろん可能です）。
 **Basic認証などの方法によりアクセス制限の設定を追加すること** を強くお薦めします。
 
 ### crontabの設定
@@ -90,11 +79,11 @@ $ crontab -e
 # 記述例
 
 SHELL=/bin/bash
-HOME=/home/fuga
+HOME=/home/foo
 MAILTO=""
 
 # nicoanime
-NICOANIME_DIR=/home/fuga/www/nicoanime/ruby
+NICOANIME_DIR=/home/foo/www/ruby
 00 * * * * ruby $NICOANIME_DIR/crawler.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
 30 * * * * ruby $NICOANIME_DIR/downloader.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
 ~~~~

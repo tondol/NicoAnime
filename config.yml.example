@@ -16,5 +16,5 @@ application_title: NicoAnime
 application_url: http://foo.bar.com/
 
 # コンテンツの保存先（絶対パス）
-contents_dir: /home/foo/bar/contents/
+contents_dir: /home/foo/www/public/contents/
 contents_url: http://foo.bar.com/contents/
