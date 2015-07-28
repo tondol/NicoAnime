@@ -16,16 +16,16 @@ class NicovideoDownloader
   end
 
   def download_via_http(nv_video)
-    binary = nv_video.video
     filename = "#{nv_video.video_id}.#{nv_video.type}"
     filepath = @config["contents_dir"] + filename
-    filesize = binary.bytesize
 
     File.open(filepath, "wb") {|f|
-      f.write(binary)
+      nv_video.video_with_block {|data|
+        f.write(data)
+      }
     }
 
-    return filename, filesize
+    return filename, File.size(filepath)
   end
   def download_via_rtmp(nv_video)
     params = nv_video.send(:get_params)
