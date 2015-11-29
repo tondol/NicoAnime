@@ -25,7 +25,8 @@ Install
 
 ### rtmpdumpの導入
 
-rtmpeプロトコルの動画をダウンロードするため，下記のようにして[rtmpdump](http://rtmpdump.mplayerhq.hu/)を導入します。
+rtmpeプロトコルの動画をダウンロードするため，
+下記のようにして[rtmpdump](http://rtmpdump.mplayerhq.hu/)を導入します。
 rtmpdumpの実行ファイルはパスの通っている場所に配置する必要があります。
 
 ~~~~
@@ -57,17 +58,14 @@ $ ./install.sh
 
 ### apache/nginxの設定
 
-&lt;設置したパス&gt;/public をドキュメントルートとして設定します。
+`<設置したパス>/public`をドキュメントルートとして設定します。
 Pretty URLs対応のため，適宜URLのリダイレクト設定を行う必要があります。
-`.htaccess.example`がapache用のサンプルとして用意されています。
 
-~~~~
-$ cd ~/www/nicoanime/public
-$ cp .htaccess.example .htaccess
-$ vim .htaccess
-~~~~
+```
+your_app/foo/bar -> your_app/index.php?chain=foo/bar
+```
 
-**Basic認証などの方法によりアクセス制限の設定を追加すること** を強くお薦めします。
+**Basic認証などの方法によりアクセス制限の設定を追加すること**を強くお薦めします。
 
 ### crontabの設定
 
@@ -93,4 +91,4 @@ NICOANIME_DIR=/home/foo/www/ruby
 HOW TO USE
 ----
 
-&lt;設置先URL&gt;/help/ をブラウザで閲覧してください。
+`<設置先URL>/help/`をブラウザで閲覧してください。
