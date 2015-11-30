@@ -5,8 +5,8 @@
 	$main = $this->config["application_main"];
 	if ($this->get_chain() != $main) {
 		$name = $this->get_name($main);
-		$url = $this->get_uri($main);
-		$links[] = "<a href=\"" . $url . "\">" . $name . "</a>";
+		$uri = $this->get_uri($main);
+		$links[] = "<a href=\"" . $uri . "\">" . $name . "</a>";
 	}
 
 	$exploded = explode(DIRECTORY_SEPARATOR, $this->get_chain());
@@ -15,8 +15,8 @@
 		$chain = implode(DIRECTORY_SEPARATOR, $stack);
 
 		$name = $this->get_name($chain);
-		$url = $this->get_uri($chain);
-		$links[] = "<a href=\"" . $url . "\">" . $name . "</a>";
+		$uri = $this->get_uri($chain);
+		$links[] = "<a href=\"" . $uri . "\">" . $name . "</a>";
 	}
 ?>
 <ul class="breadcrumb">

@@ -71,6 +71,11 @@ class Controller {
 			return $this->config["application_url"] . $chain . DIRECTORY_SEPARATOR;
 		}
 	}
+        function get_link($chain=null) {
+                $uri = $this->get_uri($chain);
+                $name = $this->get_name($chain);
+                return "<a href=\"" . $uri . "\">" . $name . "</a>";
+        }
 	// get url for specified path
 	function get_public($path=null) {
 		if (is_null($path)) {
@@ -81,6 +86,6 @@ class Controller {
 	}
 	// include template for specified path
 	function include_template($path) {
-		include_once $this->config["template_dir"] . $path;
+		include $this->config["template_dir"] . $path;
 	}
 }
