@@ -11,11 +11,11 @@ class Controller_channel extends Controller {
 			return parent::get_title($chain);
 		}
 	}
-	function get_url($chain=null) {
+	function get_uri($chain=null) {
 		if ((is_null($chain) || $chain == $this->chain) && isset($this->get["id"])) {
-			return parent::get_url() . "?id=" . $this->channel["id"];
+			return parent::get_uri() . "?id=" . $this->channel["id"];
 		} else {
-			return parent::get_url($chain);
+			return parent::get_uri($chain);
 		}
 	}
 

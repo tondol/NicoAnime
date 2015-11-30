@@ -17,7 +17,7 @@ class NicovideoDownloader
 
   def download_via_http(nv_video)
     filename = "#{nv_video.video_id}.#{nv_video.type}"
-    filepath = @config["contents_dir"] + filename
+    filepath = @config["contents_dir"] + "/" + filename
 
     File.open(filepath, "wb") {|f|
       nv_video.video_with_block {|data|
@@ -40,7 +40,7 @@ class NicovideoDownloader
 
     resume = ""
     filename = "#{nv_video.video_id}.flv"
-    filepath = @config["contents_dir"] + filename
+    filepath = @config["contents_dir"] + "/" + filename
 
     50.times {|i|
       system("rtmpdump" +
@@ -71,7 +71,7 @@ class NicovideoDownloader
   end
   def download_comments(nv_video)
     filename = "#{nv_video.video_id}.xml"
-    filepath = @config["contents_dir"] + filename
+    filepath = @config["contents_dir"] + "/" + filename
 
     File.open(filepath, "wb") {|f|
       f.write(nv_video.comments(500))
@@ -79,7 +79,7 @@ class NicovideoDownloader
   end
   def download_thumbnail(nv_video)
     filename = "#{nv_video.video_id}.jpg"
-    filepath = @config["contents_dir"] + filename
+    filepath = @config["contents_dir"] + "/" + filename
 
     File.open(filepath, "wb") {|f|
       f.write(nv_video.thumbnail)

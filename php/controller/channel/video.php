@@ -7,13 +7,13 @@ class Controller_channel_video extends Controller {
 	function get_title($chain=null) {	
 		return $this->video["title"];
 	}
-	function get_url($chain=null) {
+	function get_uri($chain=null) {
 		if ((is_null($chain) || $chain == $this->chain) && isset($this->video["id"])) {
-			return parent::get_url() . "?id=" . $this->video["id"];
+			return parent::get_uri() . "?id=" . $this->video["id"];
 		} else if ($chain == "channel" && isset($this->video["id"])) {
-			return parent::get_url($chain) . "?id=" . $this->channel["id"];
+			return parent::get_uri($chain) . "?id=" . $this->channel["id"];
 		} else {
-			return parent::get_url($chain);
+			return parent::get_uri($chain);
 		}
 	}
 

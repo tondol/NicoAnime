@@ -5,7 +5,7 @@
 	$main = $this->config["application_main"];
 	if ($this->get_chain() != $main) {
 		$name = $this->get_name($main);
-		$url = $this->get_url($main);
+		$url = $this->get_uri($main);
 		$links[] = "<a href=\"" . $url . "\">" . $name . "</a>";
 	}
 
@@ -15,7 +15,7 @@
 		$chain = implode(DIRECTORY_SEPARATOR, $stack);
 
 		$name = $this->get_name($chain);
-		$url = $this->get_url($chain);
+		$url = $this->get_uri($chain);
 		$links[] = "<a href=\"" . $url . "\">" . $name . "</a>";
 	}
 ?>

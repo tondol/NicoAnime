@@ -11,15 +11,15 @@ class Controller_channel_video_delete extends Controller {
 	private $validation_error = array();
 	private $submission_error = array();
 
-	function get_url($chain=null) {
+	function get_uri($chain=null) {
 		if ((is_null($chain) || $chain == $this->chain) && isset($this->video['id'])) {
-			return parent::get_url() . "?id=" . $this->video['id'];
+			return parent::get_uri() . "?id=" . $this->video['id'];
 		} else if ($chain == "channel" && isset($this->channel["id"])) {
-			return parent::get_url($chain) . "?id=" . $this->channel["id"];
+			return parent::get_uri($chain) . "?id=" . $this->channel["id"];
 		} else if ($chain == "channel/video" && isset($this->video["id"])) {
-			return parent::get_url($chain) . "?id=" . $this->video["id"];
+			return parent::get_uri($chain) . "?id=" . $this->video["id"];
 		} else {
-			return parent::get_url($chain);
+			return parent::get_uri($chain);
 		}
 	}
 
@@ -33,7 +33,7 @@ class Controller_channel_video_delete extends Controller {
 	}
 	function clean_files() {
 		$filename = $this->video["filename"];
-		$filepath = $this->config["contents_dir"] . $filename;
+		$filepath = $this->config["contents_dir"] . "/" . $filename;
 		if (empty($filename)) {
 			return;
 		}
@@ -41,14 +41,14 @@ class Controller_channel_video_delete extends Controller {
 			unlink($filepath);
 		}
 
-		$filename = $this->video["nicoVideoId"] . ".xml";
-		$filepath = $this->config["contents_dir"] . $filename;
+		$filename = $this->video["nicoVideoId"] . ".jpg";
+		$filepath = $this->config["contents_dir"] . "/" . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
 		}
 
-		$filename = $this->video["nicoVideoId"] . ".jpg";
-		$filepath = $this->config["contents_dir"] . $filename;
+		$filename = $this->video["nicoVideoId"] . ".xml";
+		$filepath = $this->config["contents_dir"] . "/" . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
 		}

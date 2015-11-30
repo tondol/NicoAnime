@@ -12,7 +12,7 @@
 	<?php foreach ($this->get("videos") as $i => $video): ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<a href="<?= h($this->get_url("channel/video")) ?>?id=<?= h($video["id"]) ?>">
+		<a href="<?= h($this->get_uri("channel/video")) ?>?id=<?= h($video["id"]) ?>">
 			<?= h($video["title"]) ?>
 		</a>
 	</div>

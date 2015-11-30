@@ -27,5 +27,5 @@
 <?php endif ?>
 
 <p>
-	<a class="btn btn-primary" href="<?= h($this->get_url("crawler")) ?>">戻る</a>
+	<a class="btn btn-primary" href="<?= h($this->get_uri("crawler")) ?>">戻る</a>
 </p>

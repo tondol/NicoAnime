@@ -42,7 +42,7 @@ puts "... done"
 
 puts_header("configure config.yml")
 Dir.chdir(File.dirname(__FILE__))
-contents_dir = File.expand_path(File.dirname(__FILE__)) + "/public/contents/"
+contents_dir = File.expand_path(File.dirname(__FILE__)) + "/public/contents"
 @config = YAML.load_file(File.exist?("config.yml") ? "config.yml" : "config.yml.example")
 prompt("nv/mail", "your email address on niconico")
 prompt("nv/password", "your password on niconico account")
@@ -52,8 +52,8 @@ prompt("db/password", "the password of your database account")
 prompt("db/database", "your database name")
 prompt("application_title", "application's title")
 prompt("application_url", "application's url")
-prompt("contents_dir", "the directory where videos are located (ended with '/')", contents_dir)
-prompt("contents_url", "the url where videos are located (ended with '/')")
+prompt("contents_dir", "the directory where videos are located (with NO ending '/')", contents_dir)
+prompt("contents_url", "the url where videos are located (with NO ending '/')")
 File.write("config.yml", @config.to_yaml)
 puts "... done"
 
