@@ -28,7 +28,7 @@
 
 <p>
 <?php
-	$channel_url = $this->get_uri("channel");
+	$channel_url = $this->get_url("channel");
 ?>
 	<a class="btn btn-primary" href="<?= h($channel_url) ?>">戻る</a>
 </p>

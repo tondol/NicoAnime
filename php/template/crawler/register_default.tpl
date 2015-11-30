@@ -13,7 +13,7 @@
 	<h2>input <small>入力</small></h2>
 </div>
 
-<form action="<?= h($this->get_uri()) ?>" method="post" role="form">
+<form action="<?= h($this->get_url()) ?>" method="post" role="form">
 	<div class="<?= h($group_class) ?>">
 		<label for="url">URL</label>
 		<input name="url" type="text" value="<?= h($this->post["url"]) ?>" class="form-control" placeholder="http://ch.nicovideo.jp/xxxx" />

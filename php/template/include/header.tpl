@@ -18,15 +18,15 @@
 	<div class="navbar navbar-inverse navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="<?= h($this->get_uri("index")) ?>">NicoAnime</a>
+				<a class="navbar-brand" href="<?= h($this->get_url("index")) ?>">NicoAnime</a>
 			</div><!-- /navbar-header -->
 			<div class="navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<?= h($this->get_uri("index")) ?>">index</a></li>
-					<li><a href="<?= h($this->get_uri("crawler")) ?>">crawler</a></li>
-					<li><a href="<?= h($this->get_uri("downloader")) ?>">downloader</a></li>
-					<li><a href="<?= h($this->get_uri("logs")) ?>">logs</a></li>
-					<li><a href="<?= h($this->get_uri("help")) ?>">help</a></li>
+					<li><a href="<?= h($this->get_url("index")) ?>">index</a></li>
+					<li><a href="<?= h($this->get_url("crawler")) ?>">crawler</a></li>
+					<li><a href="<?= h($this->get_url("downloader")) ?>">downloader</a></li>
+					<li><a href="<?= h($this->get_url("logs")) ?>">logs</a></li>
+					<li><a href="<?= h($this->get_url("help")) ?>">help</a></li>
 				</ul>
 			</div><!-- /navbar-collapse -->
 		</div><!-- /container -->

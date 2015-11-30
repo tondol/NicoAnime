@@ -7,7 +7,7 @@
 	<h2>confirm <small>確認</small></h2>
 </div>
 
-<form action="<?= h($this->get_uri()) ?>" method="post" role="form">
+<form action="<?= h($this->get_url()) ?>" method="post" role="form">
 	<fieldset disabled="disabled">
 		<div class="form-group">
 			<label>タイトル</label>

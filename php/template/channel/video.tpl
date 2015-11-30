@@ -3,9 +3,9 @@
 
 <?php
 	$video = $this->get("video");
-	$video_uri = $this->config["contents_dir_uri"] . "/" . $video["filename"];
-	$thumb_uri = $this->config["contents_dir_uri"] . "/" . $video["nicoVideoId"] . ".jpg";
-	$comments_uri = $this->config["contents_dir_uri"] . "/" . $video["nicoVideoId"] . ".xml";
+	$video_url = $this->config["contents_dir_url"] . "/" . $video["filename"];
+	$thumb_url = $this->config["contents_dir_url"] . "/" . $video["nicoVideoId"] . ".jpg";
+	$comments_url = $this->config["contents_dir_url"] . "/" . $video["nicoVideoId"] . ".xml";
 	$filesize = sprintf("%.2f", $video["filesize"] / 1000.0 / 1000.0);
 ?>
 
@@ -20,8 +20,8 @@
 <script type="text/javascript">
 	var player = jwplayer("player");
 	player.setup({
-		file: "<?= h($video_uri) ?>",
-		image: "<?= h($thumb_uri) ?>",
+		file: "<?= h($video_url) ?>",
+		image: "<?= h($thumb_url) ?>",
 		width: 640,
 		height: 360
 	});
@@ -49,10 +49,10 @@
 </dl>
 
 <p>
-	<a href="<?= h($video_uri) ?>" class="btn btn-primary">
+	<a href="<?= h($video_url) ?>" class="btn btn-primary">
 		動画のダウンロード（<?= h($filesize) ?>MB）
 	</a>
-	<a href="<?= h($comments_uri) ?>" class="btn btn-default">
+	<a href="<?= h($comments_url) ?>" class="btn btn-default">
 		コメントのダウンロード
 	</a>
 	<a href="http://www.nicovideo.jp/watch/<?= h($video["nicoVideoId"]) ?>" class="btn btn-default">
@@ -66,9 +66,9 @@
 
 <p>
 <?php
-	$delete_uri = $this->get_uri("channel/video/delete") . "?id=" . $this->video['id'];
+	$delete_url = $this->get_url("channel/video/delete") . "?id=" . $this->video['id'];
 ?>
-	<a href="<?= h($delete_uri) ?>" class="btn btn-danger">この動画を削除する</a>
+	<a href="<?= h($delete_url) ?>" class="btn btn-danger">この動画を削除する</a>
 </p>
 
 <?php $this->include_template('include/footer.tpl') ?>

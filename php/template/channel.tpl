@@ -16,8 +16,8 @@
 <div class="row">
 	<?php foreach ($this->get("videos") as $i => $video): ?>
 		<?php
-			$video_uri = $this->get_uri("channel/video") . "?id=" . $video["id"];
-			$thumb_uri = $this->config["contents_dir_uri"] . "/" . $video["nicoVideoId"] . ".jpg";
+			$video_url = $this->get_url("channel/video") . "?id=" . $video["id"];
+			$thumb_url = $this->config["contents_dir_url"] . "/" . $video["nicoVideoId"] . ".jpg";
 			$filesize = sprintf("%.2f", $video["filesize"] / 1000000.0);
 		?>
 	<div class="col-sm-4 col-md-3">
@@ -27,14 +27,14 @@
 		<?php elseif (!isset($video["downloadedAt"])): ?>
 			<div class="text-box"><span>NOW DOWNLOADING</span></div>
 		<?php else: ?>
-			<a href="<?= h($video_uri) ?>">
-				<img src="<?= h($thumb_uri) ?>" />
+			<a href="<?= h($video_url) ?>">
+				<img src="<?= h($thumb_url) ?>" />
 			</a>
 		<?php endif ?>
 			<div class="caption">
 				<p><?= h($video["title"]) ?></p>
 		<?php if (isset($video["downloadedAt"]) && !isset($video["deletedAt"])): ?>
-				<p><a href="<?= h($video_uri) ?>" class="btn btn-primary">
+				<p><a href="<?= h($video_url) ?>" class="btn btn-primary">
 					再生する（<?= h($filesize) ?>MB）
 				</a></p>
 		<?php else: ?>
@@ -88,9 +88,9 @@
 
 <p>
 <?php
-	$delete_uri = $this->get_uri("channel/delete") . "?id=" . $channel["id"];
+	$delete_url = $this->get_url("channel/delete") . "?id=" . $channel["id"];
 ?>
-	<a href="<?= h($delete_uri) ?>" class="btn btn-danger">このタイトルを削除する</a>
+	<a href="<?= h($delete_url) ?>" class="btn btn-danger">このタイトルを削除する</a>
 </p>
 
 <?php $this->include_template('include/footer.tpl') ?>

@@ -20,10 +20,10 @@ $config = array(
 	'template_dir' => TEMPLATE_DIR,
 	'public_dir' => PUBLIC_DIR,
 
-	'application_uri' => 'https://anime.tondol.com/',
 	'application_main' => 'index',
-	'application_title' => 'NicoAnime',
 	'application_missing' => 'missing',
+	'application_url' => 'https://anime.tondol.com/',
+	'application_title' => 'NicoAnime',
 
 	'chain' => array(
 		'index' => 'index',

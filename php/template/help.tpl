@@ -16,7 +16,7 @@
 
 <ol>
 	<li>クロール対象を登録する<ul>
-		<li><a href="<?= h($this->get_uri('crawler/register')) ?>">crawler/register</a>からタイトルを登録します。</li>
+		<li><a href="<?= h($this->get_url('crawler/register')) ?>">crawler/register</a>からタイトルを登録します。</li>
 		<li>登録に必要なものは、ニコニコチャンネルのURLだけです。</li>
 	</ul></li>
 	<li>ダウンロードを待つ<ul>
@@ -24,7 +24,7 @@
 		<li>完了までに時間が掛かるので、しばらく待ちます。</li>
 	</ul></li>
 	<li>動画を閲覧する<ul>
-		<li><a href="<?= h($this->get_uri("index")) ?>">index</a>からダウンロードが完了した動画を閲覧できます。</li>
+		<li><a href="<?= h($this->get_url("index")) ?>">index</a>からダウンロードが完了した動画を閲覧できます。</li>
 		<li>サムネイルが「NOW DOWNLOADING」になっているものは、現在処理中です。</li>
 	</ul></li>
 </ol>
@@ -36,7 +36,7 @@
 </div>
 
 <ol>
-	<li><a href="<?= h($this->get_uri("index")) ?>">index</a>にアクセスする<ul>
+	<li><a href="<?= h($this->get_url("index")) ?>">index</a>にアクセスする<ul>
 		<li>画面下部に利用可能なタイトルのリストが表示されます。</li>
 	</ul></li>
 	<li>「channels」の中から好きなタイトルのサムネイルをクリックする<ul>
@@ -53,7 +53,7 @@
 </div>
 
 <ol>
-	<li><a href="<?= h($this->get_uri("crawler/register")) ?>">crawler/register</a>にアクセスする<ul>
+	<li><a href="<?= h($this->get_url("crawler/register")) ?>">crawler/register</a>にアクセスする<ul>
 		<li>URLの入力欄が表示されます。</li>
 	</ul></li>
 	<li>入力欄に登録したいニコニコチャンネルのURLを入力して「確認する」をクリックする<ul>

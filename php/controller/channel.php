@@ -11,12 +11,14 @@ class Controller_channel extends Controller {
 			return parent::get_title($chain);
 		}
 	}
-	function get_uri($chain=null) {
+	function get_url($chain=null, $params=null) {
 		if ((is_null($chain) || $chain == $this->chain) && isset($this->get["id"])) {
-			return parent::get_uri() . "?id=" . $this->channel["id"];
-		} else {
-			return parent::get_uri($chain);
+			$params = array_merge(
+				array('id' => $this->channel['id']),
+				is_null($params) ? array() : $params
+			);
 		}
+		return parent::get_url($chain, $params);
 	}
 
 	function run() {

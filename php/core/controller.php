@@ -61,20 +61,24 @@ class Controller {
 		}
 	}
 	// get urk for specified chain (default: this)
-	function get_uri($chain=null) {
+	function get_url($chain=null, $params=null) {
 		if (is_null($chain)) {
 			$chain = $this->chain;
 		}
 		if ($chain == $this->config["application_main"]) {
-			return $this->config["application_url"];
+			$url = $this->config["application_url"];
 		} else {
-			return $this->config["application_url"] . $chain . DIRECTORY_SEPARATOR;
+			$url = $this->config["application_url"] . $chain . DIRECTORY_SEPARATOR;
 		}
+		if (!is_null($params)) {
+			$url .= "?" . http_build_query($params);
+		}
+		return $url;
 	}
         function get_link($chain=null) {
-                $uri = $this->get_uri($chain);
                 $name = $this->get_name($chain);
-                return "<a href=\"" . $uri . "\">" . $name . "</a>";
+                $url = $this->get_url($chain);
+                return "<a href=\"" . $url . "\">" . $name . "</a>";
         }
 	// get url for specified path
 	function get_public($path=null) {

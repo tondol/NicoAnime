@@ -19,7 +19,7 @@
 		?>
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<a href="<?= h($this->get_uri("channel")) ?>?id=<?= h($channel["id"]) ?>">
+		<a href="<?= h($this->get_url("channel")) ?>?id=<?= h($channel["id"]) ?>">
 			<?= h($channel["title"]) ?>
 		</a>
 	</div>
@@ -39,7 +39,7 @@
 </div>
 
 <p>
-	<a href="<?= h($this->get_uri("crawler/register")) ?>" class="btn btn-primary">
+	<a href="<?= h($this->get_url("crawler/register")) ?>" class="btn btn-primary">
 		クロール対象を登録する
 	</a>
 </p>
