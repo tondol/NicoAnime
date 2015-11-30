@@ -1,9 +1,6 @@
 #!/usr/local/bin/ruby
 # -*- coding: utf-8 -*-
 
-require 'mysql'
-require 'yaml'
-
 require_relative 'NicoVideo/nico'
 require_relative 'base'
 
@@ -69,20 +66,20 @@ class NicovideoDownloader
       raise Nicovideo::UnavailableVideoError.new
     end
   end
-  def download_comments(nv_video)
-    filename = "#{nv_video.video_id}.xml"
-    filepath = @config["contents_dir"] + "/" + filename
-
-    File.open(filepath, "wb") {|f|
-      f.write(nv_video.comments(500))
-    }
-  end
   def download_thumbnail(nv_video)
     filename = "#{nv_video.video_id}.jpg"
     filepath = @config["contents_dir"] + "/" + filename
 
     File.open(filepath, "wb") {|f|
       f.write(nv_video.thumbnail)
+    }
+  end
+  def download_comments(nv_video)
+    filename = "#{nv_video.video_id}.xml"
+    filepath = @config["contents_dir"] + "/" + filename
+
+    File.open(filepath, "wb") {|f|
+      f.write(nv_video.comments(500))
     }
   end
   def download(video)
@@ -102,15 +99,15 @@ class NicovideoDownloader
           raise Nicovideo::UnavailableVideoError.new
         end
 
-        @logs.d("downloader", "download/comments: #{video["title"]}")
-        download_comments(nv_video)
-
         @logs.d("downloader", "download/thumbnail: #{video["title"]}")
         download_thumbnail(nv_video)
 
+        @logs.d("downloader", "download/comments: #{video["title"]}")
+        download_comments(nv_video)
+
         @logs.d("downloader", "download: #{video["title"]}")
         @videos.update_with_success(video["id"], filename, filesize)
-        sleep 30
+        sleep 10
       }
     rescue StandardError => e
       @logs.e("downloader", "download/unavailable: #{video["title"]}")

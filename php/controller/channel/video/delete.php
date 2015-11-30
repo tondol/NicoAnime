@@ -78,6 +78,7 @@ class Controller_channel_video_delete extends Controller {
 		$videos = new Model_videos();
 		$logs = new Model_logs();
 
+		# 論理削除
 		$this->clean_files();
 		$videos->delete_logically($this->video["id"]);
 		$logs->d("front", "channel/video/delete: " . $this->video["title"]);

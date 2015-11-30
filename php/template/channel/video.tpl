@@ -3,7 +3,7 @@
 
 <?php
 	$video = $this->get("video");
-	$video_url = $this->config["contents_dir_url"] . "/" . $video["filename"];
+	$video_url = $this->get("video_url");
 	$thumb_url = $this->config["contents_dir_url"] . "/" . $video["nicoVideoId"] . ".jpg";
 	$comments_url = $this->config["contents_dir_url"] . "/" . $video["nicoVideoId"] . ".xml";
 	$filesize = sprintf("%.2f", $video["filesize"] / 1000.0 / 1000.0);

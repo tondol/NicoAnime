@@ -1,9 +1,6 @@
 #!/usr/local/bin/ruby
 # -*- coding: utf-8 -*-
 
-require 'mysql'
-require 'yaml'
-
 require_relative 'NicoVideo/nico'
 require_relative 'base'
 
