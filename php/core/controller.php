@@ -60,7 +60,7 @@ class Controller {
 			return $this->config["chain"][$chain];
 		}
 	}
-	// get urk for specified chain (default: this)
+	// get url for specified chain (default: this)
 	function get_url($chain=null, $params=null) {
 		if (is_null($chain)) {
 			$chain = $this->chain;
