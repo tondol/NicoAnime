@@ -16,7 +16,7 @@ Requirements
     - mod_rewrite
 - MySQL
 
-Install
+Setup
 ----
 
 いくつかのステップが必要です。
@@ -88,7 +88,30 @@ NICOANIME_DIR=/home/foo/www/ruby
 30 * * * * ruby $NICOANIME_DIR/downloader.rb >> $NICOANIME_DIR/nicoanime.log 2>> $NICOANIME_DIR/error.log
 ~~~~
 
-HOW TO USE
+How to use
 ----
 
 `<設置先URL>/help/`をブラウザで閲覧してください。
+
+Migration
+----
+
+最近の破壊的変更をまとめています。
+
+### config.yml
+
+Commit id: f9c8184 - 0983fd3 において変更
+
+~~~~
+キー名変更: contents_url -> contents_dir_url
+~~~~
+
+### install.sql
+
+Commit id: 8a54229 において変更
+
+~~~~
+カラム追加: channels.service
+カラム名変更: channels.nicoChannelId -> channels.serviceChannelId
+カラム名変更: videos.nicoVideoId -> videos.serviceVideoId
+~~~~
