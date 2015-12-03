@@ -99,6 +99,9 @@ body > .container > .container {
 .thumbnail a:hover .text-box {
 	background: #333333;
 }
+.thumbnail img {
+	width: 130px;
+}
 
 /*
  * 要素の余白調整

@@ -28,6 +28,7 @@ class Controller_channel_video_delete extends Controller_anime {
 		$channels = new Model_channels();
 		$this->channel = $channels->select($this->video['channelId']);
 	}
+	// @todo
 	function clean_files() {
 		$filename = $this->video["filename"];
 		$filepath = $this->config["contents_dir"] . "/" . $filename;

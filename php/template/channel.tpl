@@ -17,7 +17,8 @@
 	<?php foreach ($this->get("videos") as $i => $video): ?>
 		<?php
 			$video_url = $this->get_url("channel/video") . "?id=" . $video["id"];
-			$thumb_url = $this->config["contents_dir_url"] . "/" . $video["serviceVideoId"] . ".jpg";
+			$thumb_filename = str_replace('/', '_', $video["serviceVideoId"]) . ".jpg";
+			$thumb_url = $this->config["contents_dir_url"] . "/" . $thumb_filename;
 			$filesize = sprintf("%.2f", $video["filesize"] / 1000000.0);
 		?>
 	<div class="col-sm-4 col-md-3">
