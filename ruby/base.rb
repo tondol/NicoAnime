@@ -6,6 +6,10 @@ require 'yaml'
 
 require_relative 'NicoVideo/nico'
 
+module Gyao
+  class UnavailableVideoError < StandardError; end
+end
+
 module Model
   def self.connect
     config = load_config
@@ -18,7 +22,10 @@ module Model
     @@db.query("SET NAMES UTF8")
   end
   def self.close
-    @@db.close
+    begin
+      @@db.close
+    rescue Exception => e
+    end
   end
   def self.load_config
     config_dir = File.dirname(File.dirname(__FILE__))
@@ -72,20 +79,23 @@ module Model
       @db = Model::db
     end
     def select_all_downloaded
-      statement = @db.prepare("SELECT * FROM `videos`" +
+      statement = @db.prepare("SELECT `videos`.*, `channels`.`service` FROM `videos`" +
+        " LEFT JOIN `channels` ON `videos`.`channelId` = `channels`.`id`" +
         " WHERE `downloadedAt` IS NOT NULL AND `deletedAt` IS NULL")
       statement.execute
     end
     def select_all_not_downloaded
       # 論理削除されたものをダウンロード対象から除く
-      statement = @db.prepare("SELECT * FROM `videos`" +
+      statement = @db.prepare("SELECT `videos`.*, `channels`.`service` FROM `videos`" +
+        " LEFT JOIN `channels` ON `videos`.`channelId` = `channels`.`id`" +
         " WHERE `downloadedAt` IS NULL AND `deletedAt` IS NULL" +
         " ORDER BY `createdAt` ASC")
       statement.execute
     end
     def select_all_by_channel_id(channel_id)
       # 論理削除されたものを衝突検査の対象に含める
-      statement = @db.prepare("SELECT * FROM `videos`" +
+      statement = @db.prepare("SELECT `videos`.*, `channels`.`service` FROM `videos`" +
+        " LEFT JOIN `channels` ON `videos`.`channelId` = `channels`.`id`" +
         " WHERE `channelId` = ?")
       statement.execute(channel_id)
     end
@@ -140,4 +150,3 @@ module Model
     end
   end
 end
-
