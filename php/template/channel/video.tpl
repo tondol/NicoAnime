@@ -61,13 +61,11 @@
 <?php endif ?>
 <?php if ($video["service"] == "nico"): ?>
 	<a href="http://www.nicovideo.jp/watch/<?= h($video["serviceVideoId"]) ?>" class="btn btn-default">
-		公式動画
-	</a>
 <?php elseif ($video["service"] == "gyao"): ?>
 	<a href="http://gyao.yahoo.co.jp/player/<?= h($video["serviceVideoId"]) ?>/" class="btn btn-default">
+<?php endif ?>
 		公式動画
 	</a>
-<?php endif ?>
 </p>
 
 <div class="page-header">

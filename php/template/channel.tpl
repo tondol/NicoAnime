@@ -80,7 +80,11 @@
 </dl>
 
 <p>
+<?php if ($channel["service"] == "nico"): ?>
 	<a href="http://ch.nicovideo.jp/<?= h($channel["serviceChannelId"]) ?>" class="btn btn-default">
+<?php elseif ($channel["service"] == "gyao"): ?>
+	<a href="http://gyao.yahoo.co.jp/p/<?= h($channel["serviceChannelId"]) ?>/" class="btn btn-default">
+<?php endif ?>
 		公式ページ
 	</a>
 </p>
