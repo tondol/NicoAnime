@@ -11,15 +11,24 @@ class Controller_crawler_register extends Controller {
 	private $submission_error = array();
 
 	function get_channel_id() {
-		$pattern = "!http://ch\.nicovideo\.jp/([-0-9A-Z_a-z]+)!";
-		if (preg_match($pattern, $this->post["url"], $matches)) {
+		$nicoPattern = "!http://ch\.nicovideo\.jp/([-0-9A-Z_a-z]+)!";
+		if (preg_match($nicoPattern, $this->post["url"], $matches)) {
+			$this->channel_service = "nico";
+			$this->channel_id = $matches[1];
+		}
+		$gyaoPattern = "!http://gyao.yahoo.co.jp/p/([0-9]+/v[0-9]+)/!";
+		if (preg_match($gyaoPattern, $this->post["url"], $matches)) {
+			$this->channel_service = "gyao";
 			$this->channel_id = $matches[1];
 		}
 	}
 	function get_channel_rss() {
+		if ($this->channel_service != "nico") {
+			return;
+		}
+
 		$url = "http://ch.nicovideo.jp/" . $this->channel_id . "/video?rss=2.0";
 		$ns = "http://purl.org/dc/elements/1.1/";
-
 		if ($response = @file_get_contents($url)) {
 			$document = new SimpleXMLElement($response);
 			$this->channel_title =
@@ -27,20 +36,38 @@ class Controller_crawler_register extends Controller {
 		}
 	}
 	function get_channel_html() {
-		$url = "http://ch.nicovideo.jp/" . $this->channel_id;
-
-		if ($response = @file_get_contents($url)) {
-			$document = new DOMDocument();
-			@$document->loadHTML($response);
-			$metas = $document->getElementsByTagName("meta");
-
-			foreach ($metas as $meta) {
-				$name = $meta->getAttribute("name");
-				$content = $meta->getAttribute("content");
-				if ($name == "description") {
-					$this->channel_description = $content;
-				} else if ($name == "keywords") {
-					$this->channel_keywords = $content;
+		if ($this->channel_service == "nico") {
+			$url = "http://ch.nicovideo.jp/" . $this->channel_id;
+			if ($response = @file_get_contents($url)) {
+				$document = new DOMDocument();
+				@$document->loadHTML($response);
+				$metas = $document->getElementsByTagName("meta");
+				foreach ($metas as $meta) {
+					$name = $meta->getAttribute("name");
+					$content = $meta->getAttribute("content");
+					if ($name == "description") {
+						$this->channel_description = $content;
+					} else if ($name == "keywords") {
+						$this->channel_keywords = $content;
+					}
+				}
+			}
+		} else if ($this->channel_service == "gyao") {
+			$url = "http://gyao.yahoo.co.jp/p/" . $this->channel_id . "/";
+			if ($response = @file_get_contents($url)) {
+				$document = new DOMDocument();
+				@$document->loadHTML($response);
+				$titles = $document->getElementsByTagName("title");
+				$this->channel_title = explode('｜', $titles->item(0)->textContent)[0];
+				$metas = $document->getElementsByTagName("meta");
+				foreach ($metas as $meta) {
+					$name = $meta->getAttribute("name");
+					$content = $meta->getAttribute("content");
+					if ($name == "Description") {
+						$this->channel_description = $content;
+					} else if ($name == "Keywords") {
+						$this->channel_keywords = $content;
+					}
 				}
 			}
 		}
@@ -77,7 +104,7 @@ class Controller_crawler_register extends Controller {
 		$logs = new Model_logs();
 
 		$result = $channels->insert_into(
-			"nico",
+			$this->channel_service,
 			$this->channel_id,
 			$this->channel_title,
 			$this->channel_description,
@@ -96,6 +123,7 @@ class Controller_crawler_register extends Controller {
 	function run() {
 		if (isset($this->post["confirm"])) {
 			$this->validate();
+			$this->set("channel_service", $this->channel_service);
 			$this->set("channel_id", $this->channel_id);
 			$this->set("channel_title", $this->channel_title);
 			$this->set("channel_description", $this->channel_description);
@@ -103,6 +131,7 @@ class Controller_crawler_register extends Controller {
 
 		} else if (isset($this->post["submit"])) {
 			$this->validate();
+			$this->set("channel_service", $this->channel_service);
 			$this->set("channel_id", $this->channel_id);
 			$this->set("channel_title", $this->channel_title);
 			$this->set("channel_description", $this->channel_description);

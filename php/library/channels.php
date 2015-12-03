@@ -48,9 +48,12 @@ class Model_channels {
 				" SELECT * FROM `videos`" .
 				" WHERE `downloadedAt` IN (" .
 					" SELECT MAX(`downloadedAt`) FROM `videos`" .
-					" WHERE `deletedAt` IS NULL" .
+					" WHERE `downloadedAt` IS NOT NULL" .
+					" AND `deletedAt` IS NULL" .
 					" GROUP BY `channelId`" .
 				" )" .
+				// 同じdownloadedAtが複数存在するとき
+				" GROUP BY channelId" .
 			" ) AS `t2` ON `t1`.`id` = `t2`.`channelId`" .
 			" ORDER BY `t2`.`downloadedAt` IS NULL ASC," .
 			" `t1`.`modifiedAt` DESC";

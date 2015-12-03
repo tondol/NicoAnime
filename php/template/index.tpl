@@ -15,14 +15,15 @@
 <div class="row">
 	<?php foreach ($this->get("channels") as $channel): ?>
 		<?php
-			$thumbnail_url = $this->config["contents_dir_url"] . "/" . $channel["serviceVideoId"] . ".jpg";
+			$thumb_filename = str_replace('/', '_', $channel["serviceVideoId"]) . ".jpg";
+			$thumb_url = $this->config["contents_dir_url"] . "/" . $thumb_filename;
 			$channel_url = $this->get_url("channel") . "?id=" . $channel["id"];
 		?>
 	<div class="col-sm-4 col-md-3">
 		<div class="thumbnail">
 			<a href="<?= h($channel_url) ?>">
 		<?php if (isset($channel["downloadedAt"])): ?>
-				<img src="<?= h($thumbnail_url) ?>" />
+				<img src="<?= h($thumb_url) ?>" />
 		<?php else: ?>
 				<div class="text-box"><span>NOW DOWNLOADING</span></div>
 		<?php endif ?>
