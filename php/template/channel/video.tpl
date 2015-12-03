@@ -4,8 +4,8 @@
 <?php
 	$video = $this->get("video");
 	$video_url = $this->get("video_url");
-	$thumb_url = $this->config["contents_dir_url"] . "/" . $video["nicoVideoId"] . ".jpg";
-	$comments_url = $this->config["contents_dir_url"] . "/" . $video["nicoVideoId"] . ".xml";
+	$thumb_url = $this->config["contents_dir_url"] . "/" . $video["serviceVideoId"] . ".jpg";
+	$comments_url = $this->config["contents_dir_url"] . "/" . $video["serviceVideoId"] . ".xml";
 	$filesize = sprintf("%.2f", $video["filesize"] / 1000.0 / 1000.0);
 ?>
 
@@ -55,7 +55,7 @@
 	<a href="<?= h($comments_url) ?>" class="btn btn-default">
 		コメントのダウンロード
 	</a>
-	<a href="http://www.nicovideo.jp/watch/<?= h($video["nicoVideoId"]) ?>" class="btn btn-default">
+	<a href="http://www.nicovideo.jp/watch/<?= h($video["serviceVideoId"]) ?>" class="btn btn-default">
 		公式動画
 	</a>
 </p>

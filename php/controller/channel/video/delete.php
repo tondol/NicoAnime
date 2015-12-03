@@ -38,13 +38,13 @@ class Controller_channel_video_delete extends Controller_anime {
 			unlink($filepath);
 		}
 
-		$filename = $this->video["nicoVideoId"] . ".jpg";
+		$filename = $this->video["serviceVideoId"] . ".jpg";
 		$filepath = $this->config["contents_dir"] . "/" . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
 		}
 
-		$filename = $this->video["nicoVideoId"] . ".xml";
+		$filename = $this->video["serviceVideoId"] . ".xml";
 		$filepath = $this->config["contents_dir"] . "/" . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);

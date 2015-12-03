@@ -47,7 +47,7 @@ class Controller_crawler_register extends Controller {
 	}
 	function get_channel() {
 		$channels = new Model_channels();
-		$this->channel = $channels->select_by_nico_channel_id($this->channel_id);
+		$this->channel = $channels->select_by_service_channel_id($this->channel_id);
 	}
 
 	function validate() {
@@ -77,6 +77,7 @@ class Controller_crawler_register extends Controller {
 		$logs = new Model_logs();
 
 		$result = $channels->insert_into(
+			"nico",
 			$this->channel_id,
 			$this->channel_title,
 			$this->channel_description,

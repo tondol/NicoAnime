@@ -4,7 +4,8 @@
 
 CREATE TABLE IF NOT EXISTS `channels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nicoChannelId` varchar(255) NOT NULL,
+  `service` varchar(255) NOT NULL,
+  `serviceChannelId` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `keywords` text NOT NULL,
@@ -12,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `channels` (
   `modifiedAt` datetime DEFAULT NULL,
   `crawledAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `nicoChannelId` (`nicoChannelId`)
+  UNIQUE KEY `serviceChannelId` (`serviceChannelId`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
@@ -35,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `logs` (
 CREATE TABLE IF NOT EXISTS `videos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `channelId` int(11) NOT NULL,
-  `nicoVideoId` varchar(255) NOT NULL,
+  `serviceVideoId` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `filename` varchar(255) DEFAULT NULL,
@@ -45,5 +46,5 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `downloadedAt` datetime DEFAULT NULL,
   `deletedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `nicoVideoId` (`nicoVideoId`)
+  UNIQUE KEY `serviceVideoId` (`serviceVideoId`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

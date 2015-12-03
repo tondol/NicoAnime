@@ -91,7 +91,7 @@ module Model
     end
     def insert_into(channel_id, video_id, title, description)
       statement = @db.prepare("INSERT INTO `videos`" +
-        " (`channelId`, `nicoVideoId`, `title`, `description`, `createdAt`)" +
+        " (`channelId`, `serviceVideoId`, `title`, `description`, `createdAt`)" +
         " VALUES (?, ?, ?, ?, ?)")
       statement.execute(channel_id, video_id, title, description, Time.now)
     end

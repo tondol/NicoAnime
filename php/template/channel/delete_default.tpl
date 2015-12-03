@@ -18,7 +18,7 @@
 	<fieldset disabled="disabled">
 		<div class="form-group">
 			<label>チャンネル名</label>
-			<input type="text" value="<?= h($channel['nicoChannelId']) ?>" class="form-control" />
+			<input type="text" value="<?= h($channel['serviceChannelId']) ?>" class="form-control" />
 		</div>
 		<div class="form-group">
 			<label>タイトル</label>
@@ -34,8 +34,8 @@
 		</div>
 	</fieldset>
 	<div class="<?= h($group_class) ?>">
-		<label for="nicoChannelId">チャンネル名（確認）</label>
-		<input name="nicoChannelId" type="text" class="form-control" />
+		<label for="serviceChannelId">チャンネル名（確認）</label>
+		<input name="serviceChannelId" type="text" class="form-control" />
 <?php if (!$is_valid): ?>
 		<p class="help-block">
 			<?= nl2br_h(implode("\n", $validation_error)) ?>

@@ -15,7 +15,7 @@
 <div class="row">
 	<?php foreach ($this->get("channels") as $channel): ?>
 		<?php
-			$thumbnail_url = $this->config["contents_dir_url"] . "/" . $channel["nicoVideoId"] . ".jpg";
+			$thumbnail_url = $this->config["contents_dir_url"] . "/" . $channel["serviceVideoId"] . ".jpg";
 			$channel_url = $this->get_url("channel") . "?id=" . $channel["id"];
 		?>
 	<div class="col-sm-4 col-md-3">

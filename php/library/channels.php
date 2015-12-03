@@ -25,10 +25,10 @@ class Model_channels {
 		$statement->execute(array($video_id));
 		return $statement->fetch(PDO::FETCH_ASSOC);
 	}
-	function select_by_nico_channel_id($channel_id) {
+	function select_by_service_channel_id($channel_id) {
 		$sql = "SELECT *" .
 			" FROM `channels`" .
-			" WHERE `nicoChannelId` = ?";
+			" WHERE `serviceChannelId` = ?";
 		$statement = $this->db->prepare($sql);
 		$statement->execute(array($channel_id));
 		return $statement->fetch(PDO::FETCH_ASSOC);
@@ -66,12 +66,13 @@ class Model_channels {
 		$statement->execute(array(6));
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
-	function insert_into($channel_id, $title, $description, $keywords) {
+	function insert_into($service, $channel_id, $title, $description, $keywords) {
 		$sql = "INSERT INTO `channels`" .
-			" (`nicoChannelId`, `title`, `description`, `keywords`, `createdAt`)" .
-			" VALUES (?, ?, ?, ?, ?)";
+			" (`service`, `serviceChannelId`, `title`, `description`, `keywords`, `createdAt`)" .
+			" VALUES (?, ?, ?, ?, ?, ?)";
 		$statement = $this->db->prepare($sql);
 		return $statement->execute(array(
+			$service,
 			$channel_id,
 			$title,
 			$description,

@@ -10,7 +10,7 @@
 	<fieldset disabled="disabled">
 		<div class="form-group">
 			<label>チャンネル名</label>
-			<input type="text" value="<?= h($channel['nicoChannelId']) ?>" class="form-control" />
+			<input type="text" value="<?= h($channel['serviceChannelId']) ?>" class="form-control" />
 		</div>
 		<div class="form-group">
 			<label>タイトル</label>
@@ -25,7 +25,7 @@
 			<textarea class="form-control"><?= h($channel['keywords']) ?></textarea>
 		</div>
 	</fieldset>
-	<input name="nicoChannelId" type="hidden" value="<?= h($channel['nicoChannelId']) ?>" />
+	<input name="serviceChannelId" type="hidden" value="<?= h($channel['serviceChannelId']) ?>" />
 	<button name="submit" type="submit" class="btn btn-danger">タイトルを本当に削除する</button>
 	<button name="default" type="submit" class="btn btn-default">戻る</button>
 </form>

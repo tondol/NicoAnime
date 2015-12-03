@@ -84,7 +84,7 @@ class NicovideoDownloader
   end
   def download(video)
     begin
-      @nicovideo.watch(video["nicoVideoId"]) {|nv_video|
+      @nicovideo.watch(video["serviceVideoId"]) {|nv_video|
         filename = filesize = nil
         params = nv_video.send(:get_params)
         url = URI.parse(URI.decode(params["url"]))

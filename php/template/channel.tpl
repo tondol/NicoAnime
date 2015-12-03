@@ -17,7 +17,7 @@
 	<?php foreach ($this->get("videos") as $i => $video): ?>
 		<?php
 			$video_url = $this->get_url("channel/video") . "?id=" . $video["id"];
-			$thumb_url = $this->config["contents_dir_url"] . "/" . $video["nicoVideoId"] . ".jpg";
+			$thumb_url = $this->config["contents_dir_url"] . "/" . $video["serviceVideoId"] . ".jpg";
 			$filesize = sprintf("%.2f", $video["filesize"] / 1000000.0);
 		?>
 	<div class="col-sm-4 col-md-3">
@@ -77,7 +77,7 @@
 </dl>
 
 <p>
-	<a href="http://ch.nicovideo.jp/<?= h($channel["nicoChannelId"]) ?>" class="btn btn-default">
+	<a href="http://ch.nicovideo.jp/<?= h($channel["serviceChannelId"]) ?>" class="btn btn-default">
 		公式ページ
 	</a>
 </p>

@@ -33,13 +33,13 @@ class Controller_channel_delete extends Controller_anime {
 			unlink($filepath);
 		}
 
-		$filename = $video["nicoVideoId"] . ".jpg";
+		$filename = $video["serviceVideoId"] . ".jpg";
 		$filepath = $this->config["contents_dir"] . "/" . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
 		}
 
-		$filename = $video["nicoVideoId"] . ".xml";
+		$filename = $video["serviceVideoId"] . ".xml";
 		$filepath = $this->config["contents_dir"] . "/" . $filename;
 		if (file_exists($filepath)) {
 			unlink($filepath);
@@ -55,7 +55,7 @@ class Controller_channel_delete extends Controller_anime {
 				"無効なタイトルが指定されました。";
 		}
 		if ((isset($this->post["confirm"]) || isset($this->post["submit"])) &&
-				$this->post["nicoChannelId"] != $this->channel["nicoChannelId"]) {
+				$this->post["serviceChannelId"] != $this->channel["serviceChannelId"]) {
 			$this->is_valid = false;
 			$this->validation_error[] =
 				"確認用のチャンネル名が正しくありません。";

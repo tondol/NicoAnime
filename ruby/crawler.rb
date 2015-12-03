@@ -24,10 +24,10 @@ class NicovideoCrawler
     hash = {}
 
     @videos.select_all_by_channel_id(channel["id"]).each_hash {|video|
-      hash[video["nicoVideoId"]] = true
+      hash[video["serviceVideoId"]] = true
     }
 
-    @nicovideo.channel(channel["nicoChannelId"]) {|nv_channel|
+    @nicovideo.channel(channel["serviceChannelId"]) {|nv_channel|
       @logs.d("crawler", "crawl: #{nv_channel.creator}")
       nv_channel.items.reverse_each {|item|
         begin

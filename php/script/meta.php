@@ -111,7 +111,7 @@ class Meta {
 		$channels = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 		foreach ($channels as $channel) {
-			$this->channel_id = $channel["nicoChannelId"];
+			$this->channel_id = $channel["serviceChannelId"];
 			$this->channel_title = null;
 			$this->channel_description = null;
 			$this->channel_keywords = null;
@@ -146,7 +146,7 @@ class Meta {
 		$videos = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 		foreach ($videos as $video){
-			$this->video_id = $video["nicoVideoId"];
+			$this->video_id = $video["serviceVideoId"];
 			$this->video_title = null;
 			$this->video_description = null;
 			$this->get_video_thumb();
