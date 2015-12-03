@@ -107,14 +107,19 @@ class NicovideoDownloader
 
         @logs.d("downloader", "download: #{video["title"]}")
         @videos.update_with_success(video["id"], filename, filesize)
-        sleep 10
       }
+    rescue Nicovideo::AccessLockedError => e
+      @logs.e("downloader", "download/unavailable: #{video["title"]}")
+      @logs.e("downloader", "download/unavailable: #{e.message}")
+      $stderr.puts(e.backtrace)
+      sleep 59
     rescue StandardError => e
       @logs.e("downloader", "download/unavailable: #{video["title"]}")
       @logs.e("downloader", "download/unavailable: #{e.message}")
       $stderr.puts(e.backtrace)
       @videos.update_with_failure(video["id"])
     end
+    sleep 1
   end
 
   def download_gyao_video(video)
@@ -170,13 +175,13 @@ class NicovideoDownloader
 
       @logs.d("downloader", "download: #{video["title"]}")
       @videos.update_with_success(video["id"], filename, filesize)
-      sleep 10
     rescue StandardError => e
       @logs.e("downloader", "download/unavailable: #{video["title"]}")
       @logs.e("downloader", "download/unavailable: #{e.message}")
       $stderr.puts(e.backtrace)
       @videos.update_with_failure(video["id"])
     end
+    sleep 1
   end
 
   def main

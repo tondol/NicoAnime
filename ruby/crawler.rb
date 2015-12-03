@@ -37,17 +37,17 @@ class NicovideoCrawler
           @logs.e("crawler", "crawl/unavailable: #{e.message}")
           $stderr.puts(e.backtrace)
         end
+        sleep 1
       }
     }
 
     @logs.d("crawler", "crawl/insert: #{channel["title"]} (#{num_inserted})")
     if num_inserted == 0
       @channels.update_without_modification(channel["id"])
-      sleep 1
     else
       @channels.update_with_modification(channel["id"])
-      sleep 1
     end
+    sleep 1
   end
   def crawl_gyao(channel)
     num_inserted = 0
@@ -79,23 +79,21 @@ class NicovideoCrawler
           @videos.insert_into(channel["id"], video_id, title, description)
           num_inserted += 1
         }
-        sleep 1
       rescue Exception => e
         @logs.e("crawler", "crawl/unavailable: #{video_id}")
         @logs.e("crawler", "crawl/unavailable: #{e.message}")
         $stderr.puts(e.backtrace)
-        sleep 1
       end
+      sleep 1
     }
 
     @logs.d("crawler", "crawl/insert: #{channel["title"]} (#{num_inserted})")
     if num_inserted == 0
       @channels.update_without_modification(channel["id"])
-      sleep 1
     else
       @channels.update_with_modification(channel["id"])
-      sleep 1
     end
+    sleep 1
   end
 
   def main
