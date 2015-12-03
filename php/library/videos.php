@@ -10,16 +10,18 @@ class Model_videos {
 
 	function select($id) {
 		// 論理削除済みのものも取得可能
-		$sql = "SELECT *" .
+		$sql = "SELECT `videos`.*, `channels`.`service`" .
 			" FROM `videos`" .
-			" WHERE `id` = ?";
+			" LEFT JOIN `channels` ON `channels`.`id` = `videos`.`channelId`" .
+			" WHERE `videos`.`id` = ?";
 		$statement = $this->db->prepare($sql);
 		$statement->execute(array($id));
 		return $statement->fetch(PDO::FETCH_ASSOC);
 	}
 	function select_all_by_channel_id($channel_id) {
-		$sql = "SELECT *" .
+		$sql = "SELECT `videos`.*, `channels`.`service`" .
 			" FROM `videos`" .
+			" LEFT JOIN `channels` ON `channels`.`id` = `videos`.`channelId`" .
 			" WHERE `channelId` = ?" .
 			" ORDER BY `downloadedAt` IS NULL ASC," .
                         " `deletedAt` IS NULL DESC," .
@@ -30,7 +32,8 @@ class Model_videos {
 	}
 	function select_all_not_downloaded() {
 		// 論理削除されたものをダウンロード対象から除く
-		$sql = "SELECT * FROM `videos`" .
+		$sql = "SELECT `videos`.*, `channels`.`service` FROM `videos`" .
+			" LEFT JOIN `channels` ON `channels`.`id` = `videos`.`channelId`" .
 			" WHERE `downloadedAt` IS NULL AND `deletedAt` IS NULL" .
 			" ORDER BY `createdAt` ASC";
 		$statement = $this->db->prepare($sql);

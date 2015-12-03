@@ -54,13 +54,20 @@
 	<a href="<?= h($video_url) ?>" class="btn btn-primary">
 		動画のダウンロード（<?= h($filesize) ?>MB）
 	</a>
+<?php if ($video["service"] == "nico"): ?>
 	<a href="<?= h($comments_url) ?>" class="btn btn-default">
 		コメントのダウンロード
 	</a>
-	<!-- @todo -->
+<?php endif ?>
+<?php if ($video["service"] == "nico"): ?>
 	<a href="http://www.nicovideo.jp/watch/<?= h($video["serviceVideoId"]) ?>" class="btn btn-default">
 		公式動画
 	</a>
+<?php elseif ($video["service"] == "gyao"): ?>
+	<a href="http://gyao.yahoo.co.jp/player/<?= h($video["serviceVideoId"]) ?>/" class="btn btn-default">
+		公式動画
+	</a>
+<?php endif ?>
 </p>
 
 <div class="page-header">
