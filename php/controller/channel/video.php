@@ -2,24 +2,19 @@
 
 require_once 'channels.php';
 require_once 'videos.php';
+require_once 'controller_anime.php';
 
-class Controller_channel_video extends Controller {
-	function get_title($chain=null) {	
-		return $this->video["title"];
+class Controller_channel_video extends Controller_anime {
+	function get_title($chain=null) {
+		return $this->get_title_helper($chain, array(
+			$this->chain => $this->video['title'],
+		));
 	}
 	function get_url($chain=null, $params=null) {
-		if ((is_null($chain) || $chain == $this->chain) && isset($this->video["id"])) {
-			$params = array_merge(
-				array('id' => $this->video['id']),
-				is_null($params) ? array() : $params
-			);
-		} else if ($chain == "channel" && isset($this->video["id"])) {
-			$params = array_merge(
-				array('id' => $this->channel['id']),
-				is_null($params) ? array() : $params
-			);
-		}
-		return parent::get_url($chain, $params);
+		return $this->get_url_helper($chain, $params, array(
+			$this->chain => array('id' => $this->video['id']),
+			'channel' => array('id' => $this->channel['id']),
+		));
 	}
 
 	function run() {
