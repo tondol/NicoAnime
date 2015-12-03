@@ -104,6 +104,8 @@ Commit id: f9c8184 - 0983fd3 において変更
 
 ~~~~
 キー名変更: contents_url -> contents_dir_url
+設定値の変更: contents_url 末尾のスラッシュを取り除いた
+設定値の変更: contents_dir_url 末尾のスラッシュを取り除いた
 ~~~~
 
 ### install.sql
