@@ -1,4 +1,5 @@
 <?php
+	$channel_service = $this->get("channel_service");
 	$channel_id = $this->get("channel_id");
 	$channel_title = $this->get("channel_title");
 	$channel_description = $this->get("channel_description");
@@ -12,7 +13,11 @@
 <form action="<?= h($this->get_url()) ?>" method="post" role="form">
 	<fieldset disabled="disabled">
 		<div class="form-group">
-			<label>チャンネル名</label>
+			<label>サービス</label>
+			<input type="text" value="<?= h($channel_service) ?>" class="form-control" />
+		</div>
+		<div class="form-group">
+			<label>チャンネル</label>
 			<input type="text" value="<?= h($channel_id) ?>" class="form-control" />
 		</div>
 		<div class="form-group">

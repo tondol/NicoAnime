@@ -56,6 +56,8 @@
 </div>
 
 <dl>
+	<dt>サービス</dt>
+	<dd><?= h($channel["service"]) ?></dd>
 	<dt>説明文</dt>
 	<dd><?= h($channel["description"]) ?></dd>
 	<dt>キーワード</dt>
