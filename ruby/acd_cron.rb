@@ -19,16 +19,18 @@ class NicovideoCollector
           "/usr/local/bin/acdcli sync")
       return if $?.exitstatus != 0
 
-      Dir.entries(@config["contents_dir"]).each {|entry|
+      entries = Dir.entries(@config["contents_dir"]).to_a
+      entries.each_with_index {|entry, index|
         next if entry == "." || entry == ".."
         next unless entry.end_with?(".mp4") || entry.end_with?(".flv")
         next if File.size("#{@config["contents_dir"]}/#{entry}") == 0
 
+        puts("#{index + 1}/#{entries.size}")
         system("ACD_CLI_CACHE_PATH=#{@config["acd_cli_cache_path"]} " +
             "/usr/local/bin/acdcli upload -o " +
             "#{@config["contents_dir"]}/#{entry} " +
             "#{@config["acd_cli_contents_dir"]}")
-        break if $?.exitstatus != 0
+        next if $?.exitstatus != 0
         File.delete("#{@config["contents_dir"]}/#{entry}")
 	FileUtils.touch("#{@config["contents_dir"]}/#{entry}")
       }
