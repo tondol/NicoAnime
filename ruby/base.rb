@@ -134,15 +134,15 @@ module Model
         " WHERE `id` = ? AND `retryCount` >= 3")
       statement.execute(Time.now, id)
     end
-    def update_with_filename(id, filename)
+    def update_with_filename(id, filename, filesize)
       statement = @db.prepare("UPDATE `videos`" +
-        " SET `filename` = ?, `downloadedAt` = `createdAt`, `deletedAt` = NULL" +
+        " SET `filename` = ?, `filesize` = ?, `downloadedAt` = `createdAt`, `deletedAt` = NULL" +
         " WHERE `id` = ?")
-      statement.execute(filename, id)
+      statement.execute(filename, filesize, id)
     end
     def update_without_filename(id)
       statement = @db.prepare("UPDATE `videos`" +
-        " SET `filename` = NULL, `downloadedAt` = NULL, `deletedAt` = NOW()" +
+        " SET `filename` = NULL, `filesize` = NULL, `downloadedAt` = NULL, `deletedAt` = NOW()" +
         " WHERE `id` = ?")
       statement.execute(id)
     end
