@@ -78,6 +78,17 @@ module Model
     def initialize
       @db = Model::db
     end
+    def select_by_filename_like(filename)
+      statement = @db.prepare("SELECT `videos`.*, `channels`.`service` FROM `videos`" +
+        " LEFT JOIN `channels` ON `videos`.`channelId` = `channels`.`id`" +
+        " WHERE `filename` LIKE ?")
+      statement.execute(filename).fetch
+    end
+    def select_all
+      statement = @db.prepare("SELECT `videos`.*, `channels`.`service` FROM `videos`" +
+        " LEFT JOIN `channels` ON `videos`.`channelId` = `channels`.`id`")
+      statement.execute
+    end
     def select_all_downloaded
       statement = @db.prepare("SELECT `videos`.*, `channels`.`service` FROM `videos`" +
         " LEFT JOIN `channels` ON `videos`.`channelId` = `channels`.`id`" +
@@ -122,6 +133,18 @@ module Model
         " SET `deletedAt` = ?" +
         " WHERE `id` = ? AND `retryCount` >= 3")
       statement.execute(Time.now, id)
+    end
+    def update_with_filename(id, filename)
+      statement = @db.prepare("UPDATE `videos`" +
+        " SET `filename` = ?, `downloadedAt` = `createdAt`, `deletedAt` = NULL" +
+        " WHERE `id` = ?")
+      statement.execute(filename, id)
+    end
+    def update_without_filename(id)
+      statement = @db.prepare("UPDATE `videos`" +
+        " SET `filename` = NULL, `downloadedAt` = NULL, `deletedAt` = NOW()" +
+        " WHERE `id` = ?")
+      statement.execute(id)
     end
     def delete_by_filename(filename)
       statement = @db.prepare("DELETE FROM `videos`" +
