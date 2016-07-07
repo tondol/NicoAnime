@@ -4,6 +4,7 @@
 <?php
 	$video = $this->get("video");
 	$video_url = $this->get("video_url");
+	$video_type = $this->get("video_type");
 	$thumb_filename = str_replace('/', '_', $video["serviceVideoId"]) . ".jpg";
 	$thumb_url = $this->config["contents_dir_url"] . "/" . $thumb_filename;
 	// @todo
@@ -24,6 +25,7 @@
 	player.setup({
 		file: "<?= h($video_url) ?>",
 		image: "<?= h($thumb_url) ?>",
+		type: "<?= h($video_type) ?>",
 		width: 640,
 		height: 360
 	});
