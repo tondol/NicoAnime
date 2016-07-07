@@ -44,6 +44,7 @@ class Controller_channel_video extends Controller_anime {
 			$this->set("video", $this->video);
 		}
 
+		# Amazon Cloud Driveにバックアップ済みならTempLinkを取得する
 		if (filesize("{$this->config["contents_dir"]}/{$this->video["filename"]}") == 0) {
 			$pathinfo = pathinfo($this->video["filename"]);
 			$json = $this->acd_meta();
