@@ -143,7 +143,7 @@ class NicovideoDownloader
       url = urls.sort {|v1, v2| v2[0] <=> v1[0] }[0][1]
       filename = video["serviceVideoId"].gsub('/', '_') + ".mp4"
       filepath = @config["contents_dir"] + "/" + filename
-      system("ffmpeg -bsf:a aac_adtstoasc -codec copy -movflags faststart #{filepath} -i #{url}")
+      system("ffmpeg -y -bsf:a aac_adtstoasc -codec copy -movflags faststart #{filepath} -i #{url}")
     }
 
     if $?.exitstatus == 0
