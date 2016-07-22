@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 require 'mysql'
+require 'nokogiri'
 require 'yaml'
 
 require_relative 'NicoVideo/nico'
