@@ -21,24 +21,22 @@ class NicovideoCrawler
       hash[video["serviceVideoId"]] = true
     }
 
-    @nicovideo.channel(channel["serviceChannelId"]) {|nv_channel|
-      @logs.d("crawler", "crawl: #{channel["title"]}")
-      nv_channel.items.reverse_each {|item|
-        begin
-          next if hash.key?(item.video_id)
-          hash[item.video_id] = true
-          @nicovideo.watch(item.video_id) {|nv_video|
-            @logs.d("crawler", "crawl/insert: #{nv_video.title}")
-            @videos.insert_into(channel["id"], nv_video.video_id, nv_video.title, nv_video.description)
-          }
-          num_inserted += 1
-        rescue Exception => e
-          @logs.e("crawler", "crawl/unavailable: #{item.title}")
-          @logs.e("crawler", "crawl/unavailable: #{e.message}")
-          $stderr.puts(e.backtrace)
-        end
-        sleep 1
-      }
+    @logs.d("crawler", "crawl: #{channel["title"]}")
+    Nicovideo::Channel.new(channel["serviceChannelId"]).get_items.reverse_each {|item|
+      begin
+        next if hash.key?(item.video_id)
+        hash[item.video_id] = true
+        @nicovideo.watch(item.video_id) {|nv_video|
+          @logs.d("crawler", "crawl/insert: #{nv_video.title}")
+          @videos.insert_into(channel["id"], nv_video.video_id, nv_video.title, nv_video.description)
+        }
+        num_inserted += 1
+      rescue Exception => e
+        @logs.e("crawler", "crawl/unavailable: #{item.title}")
+        @logs.e("crawler", "crawl/unavailable: #{e.message}")
+        $stderr.puts(e.backtrace)
+      end
+      sleep 1
     }
 
     @logs.d("crawler", "crawl/insert: #{channel["title"]} (#{num_inserted})")

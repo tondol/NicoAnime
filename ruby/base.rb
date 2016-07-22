@@ -174,3 +174,59 @@ module Model
     end
   end
 end
+
+module Nicovideo
+  class ChannelItem
+    def initialize(hash)
+      @title = hash[:title]
+      @link = hash[:link]
+      @description = hash[:description]
+      @pub_date = hash[:pub_date]
+    end
+
+    def video_id
+      link =~ %r!^http://.*\.nicovideo\.jp/watch/(.*)$!
+      $1
+    end
+
+    attr_reader :title, :link, :description, :pub_date
+  end
+
+  class Channel
+
+    CHANNEL_HTML_PATH_POSTFIX = '/video'
+
+    def initialize(channel_id)
+      @channel_id = channel_id
+    end
+
+    def get_items
+      document = nil
+      http = Net::HTTP::Proxy(PROXY_HOST, PROXY_PORT)
+      path = CHANNEL_PATH_PREFIX + @channel_id + CHANNEL_HTML_PATH_POSTFIX
+      query = ""
+      items = []
+
+      loop do
+        http.start(CHANNEL_HOST, 80) {|w|
+          response = w.get(path + query)
+          document = Nokogiri::HTML(response.body)
+        }
+        items += document.css(".items .item").map {|item|
+          ChannelItem.new({
+            :title => item.css(".title a").text.strip,
+            :link => item.css(".title a").first["href"],
+            :desciprtion => item.css(".description").text.strip,
+            :pub_date => Time.parse(item.css(".time var").text.strip)
+          })
+        }
+        break unless document.at_css(".next a")
+        query = document.css(".next a").first["href"]
+        break if query.include?("javascript")
+        sleep 1
+      end
+
+      items
+    end
+  end
+end
