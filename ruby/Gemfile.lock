@@ -1,10 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    mini_portile2 (2.3.0)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     ruby-mysql (2.9.13)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  nokogiri
   ruby-mysql
+
+BUNDLED WITH
+   1.13.7
